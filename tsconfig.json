@@ -11,7 +11,7 @@
     ]
   },
   "include": [
-    "./src/gatsby-node.ts",
+    "./src/**/*",
   ],
   "exclude": [
     "node_modules"
