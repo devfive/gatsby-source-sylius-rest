@@ -1,41 +1,36 @@
-import {
-  CreateSchemaCustomizationArgs,
-  GatsbyGraphQLType,
-} from 'gatsby';
-import { GraphQLOutputType } from 'graphql';
+import { CreateSchemaCustomizationArgs } from 'gatsby';
 import {
   defaultOptions,
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
 
-type GatsbyTypes = string
-  | GraphQLOutputType
-  | GatsbyGraphQLType
-  | string[]
-  | GraphQLOutputType[]
-  | GatsbyGraphQLType[];
-
-// @todo: transform to GraphQL objects
-const defaultTypes: GatsbyTypes = [
-  `
-  type SyliusTaxon implements Node @dontInfer {
-    code: String!
-    name: String!
-    slug: String!
-    position: Int!
-    description: String
-    children: [SyliusTaxon]!
-  }
-  `,
-];
-
 export function createSchemaCustomization(
-  { actions: { createTypes }, reporter }: CreateSchemaCustomizationArgs,
+  { actions: { createTypes }, reporter, schema }: CreateSchemaCustomizationArgs,
   options: SyliusSourcePluginOptions = defaultOptions,
 ):void {
   if (options.debug) {
     reporter.info('[Sylius Source] createSchemaCustomization');
   }
 
-  createTypes(defaultTypes);
+  createTypes([
+    schema.buildObjectType({
+      name: 'SyliusTaxon',
+      fields: {
+        code: 'String!',
+        name: 'String!',
+        slug: 'String!',
+        position: 'Int!',
+        description: 'String',
+      },
+      interfaces: [
+        'Node',
+      ],
+      extensions: {
+        childOf: {
+          types: ['SyliusTaxon'],
+        },
+        infer: false,
+      },
+    }),
+  ]);
 }
