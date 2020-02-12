@@ -1,5 +1,5 @@
 const { onPreBootstrap } = require('./src/onPreBootstrap');
-const { onPostBootstrap } = require('./src/gatsby-node');
+const { onPostBootstrap } = require('./src/onPostBootstrap');
 
 exports = {
   onPreBootstrap,

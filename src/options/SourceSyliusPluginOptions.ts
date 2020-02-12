@@ -1,8 +1,8 @@
 import { PluginOptions } from 'gatsby';
 
 export interface SourceSyliusPluginOptions extends PluginOptions {
-  debug: boolean;
-  locales: string[];
+  debug?: boolean;
+  locales?: string[];
 }
 
 export const defaultOptions: SourceSyliusPluginOptions = {
