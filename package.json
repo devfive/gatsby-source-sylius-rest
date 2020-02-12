@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-source-sylius",
+  "name": "gatsby-source-sylius-own",
   "private": false,
   "description": "Gatsby plugin for Sylius e-commerce framework",
   "version": "0.1.0",
@@ -17,7 +17,7 @@
     "typescript": "^3.7.5"
   },
   "peerDependencies": {
-    "gatsby": "^2.0.0"
+    "gatsby": "^2.19.7"
   },
   "main": "index.js",
   "author": "Mateusz Rutkiewicz"
