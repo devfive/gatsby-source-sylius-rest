@@ -1,0 +1,26 @@
+{
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "@typescript-eslint/no-unused-vars": 2,
+    "arrow-body-style": [2, "as-needed"],
+    "import/extensions": 0,
+    "import/no-default-export": 2,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
+    "lines-between-class-members": "off",
+    "no-confusing-arrow": 0,
+    "no-unused-vars": "off",
+    "no-use-before-define": "off"
+  }
+}
