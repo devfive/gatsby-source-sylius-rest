@@ -22,5 +22,9 @@
     "no-confusing-arrow": 0,
     "no-unused-vars": "off",
     "no-use-before-define": "off"
-  }
+  },
+  "ignorePatterns": [
+    "./src/**/*.js",
+    "./src/**/*.js.map"
+  ]
 }
