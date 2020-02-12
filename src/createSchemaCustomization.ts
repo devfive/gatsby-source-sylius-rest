@@ -18,12 +18,12 @@ type GatsbyTypes = string
 // @todo: transform to GraphQL objects
 const defaultTypes: GatsbyTypes = [
   `
-  type Taxon implements Node @dontInfer {
+  type SyliusTaxon implements Node @dontInfer {
     code: String!
     name: String!
     slug: String!
     description: String
-    children: [Taxon]!
+    children: [SyliusTaxon]!
   }
   `,
 ];
