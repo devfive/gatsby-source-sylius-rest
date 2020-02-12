@@ -1,19 +1,33 @@
 {
   "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "es6"],
     "sourceMap": true,
+    "jsx": "react",
     "noImplicitAny": true,
     "module": "commonjs",
-    "target": "es6",
     "strict": true,
     "moduleResolution": "node",
     "typeRoots": [
       "./node_modules/@types"
-    ]
+      // "./typings"
+    ],
+    "types": [
+      "node"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "*": [
+        "node_modules/*"
+        // "typings/*"
+      ]
+    },
+    "skipLibCheck": true
   },
   "include": [
     "./src/**/*",
   ],
   "exclude": [
-    "node_modules"
+    "./node_modules/*"
   ]
 }
