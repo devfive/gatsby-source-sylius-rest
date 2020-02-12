@@ -21,7 +21,9 @@
     "lines-between-class-members": "off",
     "no-confusing-arrow": 0,
     "no-unused-vars": "off",
-    "no-use-before-define": "off"
+    "no-useless-constructor": "off",
+    "no-use-before-define": "off",
+    "no-empty-function": ["error", { "allow": ["constructors"] }]
   },
   "ignorePatterns": [
     "./src/**/*.js",
