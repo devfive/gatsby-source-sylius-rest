@@ -3,7 +3,10 @@ import {
   GatsbyGraphQLType,
 } from 'gatsby';
 import { GraphQLOutputType } from 'graphql';
-import { SourceSyliusPluginOptions, defaultOptions } from './options/SourceSyliusPluginOptions';
+import {
+  defaultOptions,
+  SyliusSourcePluginOptions,
+} from './schemas/Plugin/Options';
 
 type GatsbyTypes = string
   | GraphQLOutputType
@@ -27,7 +30,7 @@ const defaultTypes: GatsbyTypes = [
 
 export function createSchemaCustomization(
   { actions: { createTypes }, reporter }: CreateSchemaCustomizationArgs,
-  options: SourceSyliusPluginOptions = defaultOptions,
+  options: SyliusSourcePluginOptions = defaultOptions,
 ):void {
   if (options.debug) {
     reporter.info('[Sylius Source] createSchemaCustomization');

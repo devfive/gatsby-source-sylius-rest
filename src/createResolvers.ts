@@ -1,9 +1,12 @@
 import { CreateResolversArgs } from 'gatsby';
-import { SourceSyliusPluginOptions, defaultOptions } from './options/SourceSyliusPluginOptions';
+import {
+  defaultOptions,
+  SyliusSourcePluginOptions,
+} from './schemas/Plugin/Options';
 
 export function createResolvers(
   { reporter }: CreateResolversArgs,
-  options: SourceSyliusPluginOptions = defaultOptions,
+  options: SyliusSourcePluginOptions = defaultOptions,
 ):void {
   if (options.debug) {
     reporter.info('[Sylius Source] createResolvers');

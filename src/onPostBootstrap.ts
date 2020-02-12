@@ -1,9 +1,12 @@
 import { ParentSpanPluginArgs } from 'gatsby';
-import { SourceSyliusPluginOptions, defaultOptions } from './options/SourceSyliusPluginOptions';
+import {
+  defaultOptions,
+  SyliusSourcePluginOptions,
+} from './schemas/Plugin/Options';
 
 export function onPostBootstrap(
   { reporter }: ParentSpanPluginArgs,
-  options: SourceSyliusPluginOptions = defaultOptions,
+  options: SyliusSourcePluginOptions = defaultOptions,
 ):void {
   if (options.debug) {
     reporter.info('[Sylius Source] onPostBootstrap');
