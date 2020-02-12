@@ -13,7 +13,8 @@
       // "./typings"
     ],
     "types": [
-      "node"
+      "node",
+      "jest"
     ],
     "baseUrl": "./",
     "paths": {
