@@ -1,46 +1,28 @@
-import { CreateSchemaCustomizationArgs } from 'gatsby';
+import {
+  CreateSchemaCustomizationArgs,
+  GatsbyGraphQLType,
+} from 'gatsby';
+import { GraphQLOutputType } from 'graphql';
 import { SourceSyliusPluginOptions, defaultOptions } from './options/SourceSyliusPluginOptions';
 
+type GatsbyTypes = string
+  | GraphQLOutputType
+  | GatsbyGraphQLType
+  | string[]
+  | GraphQLOutputType[]
+  | GatsbyGraphQLType[];
+
 // @todo: transform to GraphQL objects
-const defaultTypes: string[] = [
-  `type Taxons {
-    main: String
-    others: [String]
-  }`,
-  `type Price {
-    currency: String!
-    current: Int!
-  }`,
-  `type Variant {
-    name: String,
-    price: Price!,
-    code: String!,
-    axis: [String]!
-  }`,
-  `type Product implements Node @dontInfer {
+const defaultTypes: GatsbyTypes = [
+  `
+  type Taxon implements Node @dontInfer {
     code: String!
-    slug: String!
     name: String!
-    description: String
-    shortDescription: String
-    channelCode: String!
-    averageRating: Int!
-    localImage: File
-    taxons: Taxons
-    variants: [Variant]!
-  }`,
-  `type Category implements Node @dontInfer {
-    code: String!
     slug: String!
-    name: String!
     description: String
-    position: Int
-    subcategories: [Category]!
-    parentCategory: Category
-    products: [Product]!
-    level: Int!
-    localImage: File
-  }`,
+    children: [Taxon]!
+  }
+  `,
 ];
 
 export function createSchemaCustomization(
