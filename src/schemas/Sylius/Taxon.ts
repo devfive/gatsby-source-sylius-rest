@@ -5,6 +5,7 @@ export interface SyliusTaxon {
   name: string;
   slug: string;
   description: string;
+  position: number;
   children: SyliusTaxon[];
   images: SyliusImage[];
 }

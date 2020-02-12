@@ -22,6 +22,7 @@ const defaultTypes: GatsbyTypes = [
     code: String!
     name: String!
     slug: String!
+    position: Int!
     description: String
     children: [SyliusTaxon]!
   }
