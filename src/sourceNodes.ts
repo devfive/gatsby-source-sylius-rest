@@ -1,4 +1,5 @@
 import { SourceNodesArgs } from 'gatsby';
+import { getAllLatestProducts } from './data/getAllLatestProducts';
 import { getAllTaxons } from './data/getAllTaxons';
 import { LocalizedCollection } from './data/getLocalizedCollections';
 import { createLinkedNodes } from './nodes/createLinkedNodes';
@@ -9,7 +10,10 @@ import {
   PartialSyliusSourcePluginOptions,
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
+import { SyliusProduct } from './schemas/Sylius/Product';
 import { SyliusTaxon } from './schemas/Sylius/Taxon';
+import { ProductNode } from './schemas/Nodes/Product';
+import { getProductNodes } from './nodes/getProductNodes';
 
 export async function sourceNodes(
   {
@@ -45,5 +49,23 @@ export async function sourceNodes(
     });
   } else {
     reporter.warn('[Sylius Source] No taxons has been found!');
+  }
+
+  const localeProducts: Array<LocalizedCollection<SyliusProduct>> = await getAllLatestProducts(url, locales);
+  if (localeProducts.length) {
+    localeProducts.forEach(async ({ collection: products, locale }) => {
+      const productNodes: ProductNode[] = getProductNodes(
+        products,
+        locale,
+        createNodeId,
+        createContentDigest,
+      );
+
+      productNodes.forEach(async (node: ProductNode) => {
+        await createNode(node);
+      });
+    });
+  } else {
+    reporter.warn('[Sylius Source] No products has been found!');
   }
 }
