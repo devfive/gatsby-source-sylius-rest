@@ -36,5 +36,23 @@ export function createSchemaCustomization(
         infer: false,
       },
     }),
+    schema.buildObjectType({
+      name: 'SyliusProduct',
+      fields: {
+        // attributes: 'SyliusAttribute[]',
+        averageRating: 'Int',
+        channelCode: 'String!',
+        code: 'String!',
+        description: 'String',
+        // images: 'SyliusImage[]',
+        metaKeywords: 'String',
+        metaDescription: 'String',
+        name: 'String!',
+        shortDescription: 'String',
+        slug: 'String!',
+        // taxons: 'SyliusProductTaxon',
+        // variants: '{ [key: string]: SyliusProductVariant }',
+      },
+    }),
   ]);
 }
