@@ -8,6 +8,7 @@ import {
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
 import { SyliusTaxon } from './schemas/Sylius/Taxon';
+import { getPackageName } from './utils/getPackageName';
 
 interface LocaleEntityCollection<T> {
   collection: T[];
@@ -72,7 +73,7 @@ export async function sourceNodes(
             return;
           }
 
-          // @todo: remove toNode when https://github.com/gatsbyjs/gatsby/issues/19993 will be fixed
+          // @todo: remove nodeInputToNode when https://github.com/gatsbyjs/gatsby/issues/19993 will be fixed
           createParentChildLink({
             parent: nodeInputToNode(parent),
             child: nodeInputToNode(child),
@@ -92,7 +93,7 @@ function nodeInputToNode(nodeInput: NodeInput): Node {
     children: nodeInput.children || [],
     internal: {
       ...nodeInput.internal,
-      owner: nodeInput.owner as string || 'gatsby-source-sylius-rest',
+      owner: nodeInput.owner as string || getPackageName(),
     },
   };
 }
