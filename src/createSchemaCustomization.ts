@@ -5,6 +5,7 @@ import {
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
 import { productSchema } from './schemas/Nodes/Product';
+import { productTaxonsSchema } from './schemas/Nodes/ProductTaxons';
 import { taxonSchema } from './schemas/Nodes/Taxon';
 
 export function createSchemaCustomization(
@@ -18,6 +19,7 @@ export function createSchemaCustomization(
   }
 
   createTypes([
+    schema.buildObjectType(productTaxonsSchema),
     schema.buildObjectType(taxonSchema),
     schema.buildObjectType(productSchema),
   ]);

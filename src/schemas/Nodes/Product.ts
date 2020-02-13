@@ -1,5 +1,6 @@
 import { NodeInput } from 'gatsby';
 import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { SyliusProductTaxons } from '../Sylius/ProductTaxons';
 
 export interface BaseProductNode {
   // attributes: SyliusAttribute[];
@@ -13,7 +14,7 @@ export interface BaseProductNode {
   name: string;
   shortDescription?: string;
   slug: string;
-  // taxons: SyliusProductTaxon;
+  taxons: SyliusProductTaxons;
   // variants: { [key: string]: SyliusProductVariant };
 }
 
@@ -34,7 +35,7 @@ export const productSchema: ComposeObjectTypeConfig<any, any> = {
     name: 'String!',
     shortDescription: 'String',
     slug: 'String!',
-    // taxons: 'SyliusProductTaxon',
+    taxons: 'SyliusProductTaxons',
     // variants: '{ [key: string]: SyliusProductVariant }',
   },
   interfaces: [

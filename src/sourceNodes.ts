@@ -51,7 +51,10 @@ export async function sourceNodes(
     reporter.warn('[Sylius Source] No taxons has been found!');
   }
 
-  const localeProducts: Array<LocalizedCollection<SyliusProduct>> = await getAllLatestProducts(url, locales);
+  const localeProducts: Array<LocalizedCollection<SyliusProduct>> = await getAllLatestProducts(
+    url,
+    locales,
+  );
   if (localeProducts.length) {
     localeProducts.forEach(async ({ collection: products, locale }) => {
       const productNodes: ProductNode[] = getProductNodes(

@@ -1,6 +1,6 @@
 import { SyliusAttribute } from './Attribute';
 import { SyliusImage } from './Image';
-import { SyliusProductTaxon } from './ProductTaxon';
+import { SyliusProductTaxons } from './ProductTaxons';
 import { SyliusProductVariant } from './ProductVariant';
 
 // @todo: add associations
@@ -16,6 +16,6 @@ export interface SyliusProduct {
   name: string;
   shortDescription: string;
   slug: string;
-  taxons: SyliusProductTaxon;
+  taxons: SyliusProductTaxons;
   variants: { [key: string]: SyliusProductVariant };
 }
