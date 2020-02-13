@@ -54,6 +54,12 @@ export function createSchemaCustomization(
         // taxons: 'SyliusProductTaxon',
         // variants: '{ [key: string]: SyliusProductVariant }',
       },
+      interfaces: [
+        'Node',
+      ],
+      extensions: {
+        infer: false,
+      },
     }),
   ]);
 }
