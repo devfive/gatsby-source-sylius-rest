@@ -1,6 +1,7 @@
-import { SourceNodesArgs, NodeInput, Node } from 'gatsby';
+import { SourceNodesArgs } from 'gatsby';
 import { getAllTaxons } from './data/getAllTaxons';
 import { LocalizedCollection } from './data/getLocalizedCollections';
+import { createLinkedNodes } from './nodes/createLinkedNodes';
 import { getTaxonNodes } from './nodes/getTaxonNodes';
 import { getDefaultOptions } from './options/getDefaultOptions';
 import { TaxonNode } from './schemas/Nodes/Taxon';
@@ -9,7 +10,6 @@ import {
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
 import { SyliusTaxon } from './schemas/Sylius/Taxon';
-import { getPackageName } from './utils/getPackageName';
 
 export async function sourceNodes(
   {
@@ -32,52 +32,18 @@ export async function sourceNodes(
   }
 
   const localeTaxons: Array<LocalizedCollection<SyliusTaxon>> = await getAllTaxons(url, locales);
-
   if (localeTaxons.length) {
-    localeTaxons.forEach(({ collection: taxons, locale }) => {
-      const taxonNodes: TaxonNode[] = getTaxonNodes(taxons, locale, createNodeId, createContentDigest);
+    localeTaxons.forEach(async ({ collection: taxons, locale }) => {
+      const taxonNodes: TaxonNode[] = getTaxonNodes(
+        taxons,
+        locale,
+        createNodeId,
+        createContentDigest,
+      );
 
-      taxonNodes.forEach(async (node: TaxonNode) => {
-        await createNode(node);
-      });
-
-      taxonNodes.forEach((parent: TaxonNode, index: number, nodes: TaxonNode[]) => {
-        if (!parent.children) {
-          return;
-        }
-
-        const childNodes: TaxonNode[] = parent.children
-          .map((id: string) => {
-            return nodes.find((childNode: TaxonNode) => childNode.id === id);
-          })
-          .filter((childNode: TaxonNode | undefined): childNode is TaxonNode => !!childNode);
-
-        childNodes.forEach((child: TaxonNode) => {
-          if (!parent.parent || !child.parent) {
-            return;
-          }
-
-          // @todo: remove nodeInputToNode when https://github.com/gatsbyjs/gatsby/issues/19993 will be fixed
-          createParentChildLink({
-            parent: nodeInputToNode(parent),
-            child: nodeInputToNode(child),
-          });
-        });
-      });
+      await createLinkedNodes(taxonNodes, createNode, createParentChildLink);
     });
   } else {
     reporter.warn('[Sylius Source] No taxons has been found!');
   }
-}
-
-function nodeInputToNode(nodeInput: NodeInput): Node {
-  return {
-    ...nodeInput,
-    parent: nodeInput.parent || '',
-    children: nodeInput.children || [],
-    internal: {
-      ...nodeInput.internal,
-      owner: nodeInput.owner as string || getPackageName(),
-    },
-  };
 }
