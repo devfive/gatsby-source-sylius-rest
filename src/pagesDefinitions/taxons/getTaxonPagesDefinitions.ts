@@ -17,7 +17,7 @@ export function getTaxonPagesDefinitions(
       path: pattern.stringify(taxon),
       component: pluginPage.component,
       context: {
-        slug: taxon.slug,
+        taxon,
       },
     };
   });
