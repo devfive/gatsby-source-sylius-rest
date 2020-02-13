@@ -1,3 +1,4 @@
+import { values } from 'lodash';
 import { ProductNode } from '../schemas/Nodes/Product';
 import { SyliusProduct } from '../schemas/Sylius/Product';
 
@@ -28,6 +29,7 @@ function getProductNode(
     ...product,
     locale,
     id,
+    variants: values(product.variants),
     internal: {
       type: 'SyliusProduct',
       content,
