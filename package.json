@@ -1,5 +1,5 @@
 {
-  "name": "gatsby-source-sylius-own",
+  "name": "gatsby-source-sylius-rest",
   "private": false,
   "description": "Gatsby plugin for Sylius e-commerce framework",
   "version": "0.1.0",

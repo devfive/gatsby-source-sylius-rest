@@ -73,7 +73,7 @@ function nodeInputToNode(nodeInput: NodeInput): Node {
     children: nodeInput.children || [],
     internal: {
       ...nodeInput.internal,
-      owner: nodeInput.owner as string || 'gatsby-source-sylius-own',
+      owner: nodeInput.owner as string || 'gatsby-source-sylius-rest',
     },
   };
 }
