@@ -1,5 +1,6 @@
-import { CreatePagesArgs } from 'gatsby';
+import { CreatePagesArgs, Page } from 'gatsby';
 import { getDefaultOptions } from './options/getDefaultOptions';
+import { getPagesDefinitions } from './pagesDefinitions/getPagesDefinitions';
 import { BaseTaxonNode } from './schemas/Nodes/Taxon';
 import { PartialSyliusSourcePluginOptions, SyliusSourcePluginOptions } from './schemas/Plugin/Options';
 
@@ -44,17 +45,16 @@ export async function createPages(
     }
   `);
 
-  if (data !== undefined) {
-    const { allSyliusTaxon: { nodes: taxons } } = data;
-
-    taxons.forEach((taxon: BaseTaxonNode) => {
-      createPage({
-        path: `/pl/${taxon.slug}`,
-        component: options.components.taxonsPage,
-        context: {
-          slug: taxon.slug,
-        },
-      });
-    });
+  if (!data) {
+    return;
   }
+
+  const { allSyliusTaxon: { nodes: taxons } } = data;
+
+
+  const pagesDefinitions: Page[] = getPagesDefinitions(options.pages, {
+    taxons,
+  });
+
+  pagesDefinitions.forEach((page: Page) => createPage(page));
 }

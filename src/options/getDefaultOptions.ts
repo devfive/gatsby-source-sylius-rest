@@ -10,6 +10,7 @@ export const defaultOptions: SyliusSourcePluginOptions = {
   },
   debug: false,
   locales: [],
+  pages: [],
   plugins: [],
 };
 
