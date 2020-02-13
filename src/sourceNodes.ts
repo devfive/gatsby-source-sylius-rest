@@ -1,7 +1,8 @@
 import { SourceNodesArgs, NodeInput, Node } from 'gatsby';
+import { getAllTaxons } from './data/getAllTaxons';
+import { LocalizedCollection } from './data/getLocalizedCollections';
 import { getTaxonNodes } from './nodes/getTaxonNodes';
 import { getDefaultOptions } from './options/getDefaultOptions';
-import { TaxonsProvider } from './data/providers/TaxonsProvider';
 import { TaxonNode } from './schemas/Nodes/Taxon';
 import {
   PartialSyliusSourcePluginOptions,
@@ -9,11 +10,6 @@ import {
 } from './schemas/Plugin/Options';
 import { SyliusTaxon } from './schemas/Sylius/Taxon';
 import { getPackageName } from './utils/getPackageName';
-
-interface LocaleEntityCollection<T> {
-  collection: T[];
-  locale: string;
-}
 
 export async function sourceNodes(
   {
@@ -35,19 +31,7 @@ export async function sourceNodes(
     throw new Error('Missing `url` param!');
   }
 
-  const taxonsProvider: TaxonsProvider = new TaxonsProvider({ url });
-  const localeTaxons: Array<LocaleEntityCollection<SyliusTaxon>> = await Promise.all(locales.map(async (locale: string) => {
-    const collection: SyliusTaxon[] = await taxonsProvider.getRecords({
-      queryParameters: {
-        params: { locale },
-      },
-    });
-
-    return {
-      collection,
-      locale,
-    };
-  }));
+  const localeTaxons: Array<LocalizedCollection<SyliusTaxon>> = await getAllTaxons(url, locales);
 
   if (localeTaxons.length) {
     localeTaxons.forEach(({ collection: taxons, locale }) => {
