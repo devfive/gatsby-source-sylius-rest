@@ -1,5 +1,5 @@
 import { IRequestOptions } from 'typed-rest-client';
-import { SyliusTaxon } from '../schemas/Sylius/Taxon';
+import { SyliusTaxon } from '../../schemas/Sylius/Taxon';
 import { RestDataProvider, RestDataProviderOptions } from './RestDataProvider';
 
 export type TaxonsProviderOptions = Omit<RestDataProviderOptions, 'resourceName'>;

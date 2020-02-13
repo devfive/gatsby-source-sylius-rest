@@ -1,7 +1,7 @@
 import { SourceNodesArgs, NodeInput, Node } from 'gatsby';
 import { getTaxonNodes } from './nodes/getTaxonNodes';
 import { getDefaultOptions } from './options/getDefaultOptions';
-import { TaxonsProvider } from './providers/TaxonsProvider';
+import { TaxonsProvider } from './data/providers/TaxonsProvider';
 import { TaxonNode } from './schemas/Nodes/Taxon';
 import {
   PartialSyliusSourcePluginOptions,
