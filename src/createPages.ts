@@ -37,6 +37,7 @@ export async function createPages(
           slug
           name
           id
+          locale
           position
           description
           code

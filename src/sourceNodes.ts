@@ -9,6 +9,11 @@ import {
 } from './schemas/Plugin/Options';
 import { SyliusTaxon } from './schemas/Sylius/Taxon';
 
+interface LocaleEntityCollection<T> {
+  collection: T[];
+  locale: string;
+}
+
 export async function sourceNodes(
   {
     actions,
@@ -18,7 +23,7 @@ export async function sourceNodes(
   }: SourceNodesArgs,
   pluginOptions: PartialSyliusSourcePluginOptions,
 ):Promise<void> {
-  const { debug, url }: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
+  const { debug, locales, url }: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
   const { createNode, createParentChildLink } = actions;
 
   if (debug) {
@@ -30,35 +35,48 @@ export async function sourceNodes(
   }
 
   const taxonsProvider: TaxonsProvider = new TaxonsProvider({ url });
-  const taxons: SyliusTaxon[] | null = await taxonsProvider.getRecords();
-
-  if (taxons) {
-    const taxonNodes: TaxonNode[] = getTaxonNodes(taxons, createNodeId, createContentDigest);
-
-    taxonNodes.forEach(async (node: TaxonNode) => {
-      await createNode(node);
+  const localeTaxons: Array<LocaleEntityCollection<SyliusTaxon>> = await Promise.all(locales.map(async (locale: string) => {
+    const collection: SyliusTaxon[] = await taxonsProvider.getRecords({
+      queryParameters: {
+        params: { locale },
+      },
     });
 
-    taxonNodes.forEach((parent: TaxonNode, index: number, nodes: TaxonNode[]) => {
-      if (!parent.children) {
-        return;
-      }
+    return {
+      collection,
+      locale,
+    };
+  }));
 
-      const childNodes: TaxonNode[] = parent.children
-        .map((id: string) => {
-          return nodes.find((childNode: TaxonNode) => childNode.id === id);
-        })
-        .filter((childNode: TaxonNode | undefined): childNode is TaxonNode => !!childNode);
+  if (localeTaxons.length) {
+    localeTaxons.forEach(({ collection: taxons, locale }) => {
+      const taxonNodes: TaxonNode[] = getTaxonNodes(taxons, locale, createNodeId, createContentDigest);
 
-      childNodes.forEach((child: TaxonNode) => {
-        if (!parent.parent || !child.parent) {
+      taxonNodes.forEach(async (node: TaxonNode) => {
+        await createNode(node);
+      });
+
+      taxonNodes.forEach((parent: TaxonNode, index: number, nodes: TaxonNode[]) => {
+        if (!parent.children) {
           return;
         }
 
-        // @todo: remove toNode when https://github.com/gatsbyjs/gatsby/issues/19993 will be fixed
-        createParentChildLink({
-          parent: nodeInputToNode(parent),
-          child: nodeInputToNode(child),
+        const childNodes: TaxonNode[] = parent.children
+          .map((id: string) => {
+            return nodes.find((childNode: TaxonNode) => childNode.id === id);
+          })
+          .filter((childNode: TaxonNode | undefined): childNode is TaxonNode => !!childNode);
+
+        childNodes.forEach((child: TaxonNode) => {
+          if (!parent.parent || !child.parent) {
+            return;
+          }
+
+          // @todo: remove toNode when https://github.com/gatsbyjs/gatsby/issues/19993 will be fixed
+          createParentChildLink({
+            parent: nodeInputToNode(parent),
+            child: nodeInputToNode(child),
+          });
         });
       });
     });

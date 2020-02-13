@@ -22,6 +22,7 @@ export function createSchemaCustomization(
         code: 'String!',
         name: 'String!',
         slug: 'String!',
+        locale: 'String!',
         position: 'Int!',
         description: 'String',
       },

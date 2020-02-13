@@ -1,4 +1,4 @@
-import { RestClient, IRestResponse } from 'typed-rest-client/RestClient';
+import { RestClient, IRestResponse, IRequestOptions } from 'typed-rest-client/RestClient';
 
 const userAgent: string = 'gatsby-source-sylius';
 
@@ -18,14 +18,16 @@ export class RestDataProvider<T> {
     this.client = new RestClient(userAgent);
   }
 
-  public async getRecords():Promise<T[] | null> {
-    const response: IRestResponse<T[]> = await this.client.get(this.getResourceUrl());
+  public async getRecords(options?: IRequestOptions):Promise<T[] | null> {
+    const url: string = this.getResourceUrl();
+    const response: IRestResponse<T[]> = await this.client.get(url, options);
 
     return response.result;
   }
 
-  public async getRecord(id: number | string):Promise<T | null> {
-    const response: IRestResponse<T> = await this.client.get(this.getSingleResourcePath(id));
+  public async getRecord(id: number | string, options?: IRequestOptions):Promise<T | null> {
+    const url: string = this.getSingleResourcePath(id);
+    const response: IRestResponse<T> = await this.client.get(url, options);
 
     return response.result;
   }

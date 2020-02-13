@@ -13,6 +13,7 @@ interface SyliusSourcePluginOptionsInterface extends PluginOptions {
 
 export interface SyliusSourcePluginPageDefinition {
   component: string;
+  path?: string;
   type: SyliusSourcePluginPagesType;
 }
 

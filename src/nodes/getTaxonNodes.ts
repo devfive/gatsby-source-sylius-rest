@@ -6,12 +6,13 @@ type CreateContentDigestFunction = (input: any) => string;
 
 export function getTaxonNodes(
   taxons: SyliusTaxon[],
+  locale: string,
   createNodeId: CreateNodeIdFunction,
   createContentDigest: CreateContentDigestFunction,
   parent?: string,
 ): TaxonNode[] {
   return taxons.reduce((nodes: TaxonNode[], taxon: SyliusTaxon) => {
-    const flatNodes: TaxonNode[] = getFlattenedTaxonNode(taxon, createNodeId, createContentDigest, parent);
+    const flatNodes: TaxonNode[] = getFlattenedTaxonNode(taxon, locale, createNodeId, createContentDigest, parent);
 
     return [
       ...nodes,
@@ -22,13 +23,14 @@ export function getTaxonNodes(
 
 function getFlattenedTaxonNode(
   taxon: SyliusTaxon,
+  locale: string,
   createNodeId: CreateNodeIdFunction,
   createContentDigest: CreateContentDigestFunction,
   parent?: string,
 ): TaxonNode[] {
   const content: string = JSON.stringify(taxon);
-  const id: string = createNodeId(`taxon-${taxon.code}`);
-  const childNodes: TaxonNode[] = getTaxonNodes(taxon.children, createNodeId, createContentDigest, id);
+  const id: string = createNodeId(`taxon-${locale}-${taxon.code}`);
+  const childNodes: TaxonNode[] = getTaxonNodes(taxon.children, locale, createNodeId, createContentDigest, id);
   const children: string[] = childNodes
     .filter((node: TaxonNode) => node.parent === id)
     .map((node: TaxonNode) => node.id);
@@ -39,6 +41,7 @@ function getFlattenedTaxonNode(
       code: taxon.code,
       description: taxon.description,
       id,
+      locale,
       internal: {
         type: 'SyliusTaxon',
         content,

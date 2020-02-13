@@ -5,10 +5,12 @@ import { getTaxonNodes } from '../getTaxonNodes';
 describe('getTaxonNodes', () => {
   let taxons: SyliusTaxon[];
   let nodes: TaxonNode[];
+  let locale: string;
 
   describe('when flat list of taxons is provided', () => {
     beforeEach(() => {
       // having
+      locale = 'pl';
       taxons = [
         getTaxon('taxon-1', 'Taxon 1', 'taxon-1-slug', 0),
         getTaxon('taxon-2', 'Taxon 2', 'taxon-2-slug', 1),
@@ -16,7 +18,7 @@ describe('getTaxonNodes', () => {
       ];
 
       // when
-      nodes = getTaxonNodes(taxons, createNodeId, createContentDigest);
+      nodes = getTaxonNodes(taxons, locale, createNodeId, createContentDigest);
     });
 
     it('should have correct length', () => {
@@ -35,7 +37,8 @@ describe('getTaxonNodes', () => {
           slug: 'taxon-1-slug',
           parent: undefined,
           children: [],
-          id: 'id-taxon-taxon-1',
+          id: 'id-taxon-pl-taxon-1',
+          locale: 'pl',
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0]),
@@ -50,7 +53,8 @@ describe('getTaxonNodes', () => {
           slug: 'taxon-2-slug',
           parent: undefined,
           children: [],
-          id: 'id-taxon-taxon-2',
+          id: 'id-taxon-pl-taxon-2',
+          locale: 'pl',
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[1]),
@@ -65,7 +69,8 @@ describe('getTaxonNodes', () => {
           slug: 'taxon-3-slug',
           parent: undefined,
           children: [],
-          id: 'id-taxon-taxon-3',
+          id: 'id-taxon-pl-taxon-3',
+          locale: 'pl',
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[2]),
@@ -79,6 +84,7 @@ describe('getTaxonNodes', () => {
   describe('when taxons with children are provided', () => {
     beforeEach(() => {
       // having
+      locale = 'pl';
       taxons = [
         getTaxon('taxon-1', 'Taxon 1', 'taxon-1-slug', 0, [
           getTaxon('taxon-1-1', 'Taxon 1-1', 'taxon-1-1-slug', 0, [
@@ -90,7 +96,7 @@ describe('getTaxonNodes', () => {
       ];
 
       // when
-      nodes = getTaxonNodes(taxons, createNodeId, createContentDigest);
+      nodes = getTaxonNodes(taxons, locale, createNodeId, createContentDigest);
     });
 
     it('should have correct length', () => {
@@ -109,10 +115,11 @@ describe('getTaxonNodes', () => {
           slug: 'taxon-1-slug',
           parent: undefined,
           children: [
-            'id-taxon-taxon-1-1',
-            'id-taxon-taxon-1-2',
+            'id-taxon-pl-taxon-1-1',
+            'id-taxon-pl-taxon-1-2',
           ],
-          id: 'id-taxon-taxon-1',
+          locale: 'pl',
+          id: 'id-taxon-pl-taxon-1',
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0]),
@@ -125,12 +132,13 @@ describe('getTaxonNodes', () => {
           name: 'Taxon 1-1',
           position: 0,
           slug: 'taxon-1-1-slug',
-          parent: 'id-taxon-taxon-1',
+          parent: 'id-taxon-pl-taxon-1',
           children: [
-            'id-taxon-taxon-1-1-1',
-            'id-taxon-taxon-1-1-2',
+            'id-taxon-pl-taxon-1-1-1',
+            'id-taxon-pl-taxon-1-1-2',
           ],
-          id: 'id-taxon-taxon-1-1',
+          locale: 'pl',
+          id: 'id-taxon-pl-taxon-1-1',
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0].children[0]),
@@ -143,9 +151,10 @@ describe('getTaxonNodes', () => {
           name: 'Taxon 1-1-1',
           position: 0,
           slug: 'taxon-1-1-1-slug',
-          parent: 'id-taxon-taxon-1-1',
+          parent: 'id-taxon-pl-taxon-1-1',
           children: [],
-          id: 'id-taxon-taxon-1-1-1',
+          locale: 'pl',
+          id: 'id-taxon-pl-taxon-1-1-1',
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0].children[0].children[0]),
@@ -158,9 +167,10 @@ describe('getTaxonNodes', () => {
           name: 'Taxon 1-1-2',
           position: 1,
           slug: 'taxon-1-1-2-slug',
-          parent: 'id-taxon-taxon-1-1',
+          parent: 'id-taxon-pl-taxon-1-1',
           children: [],
-          id: 'id-taxon-taxon-1-1-2',
+          locale: 'pl',
+          id: 'id-taxon-pl-taxon-1-1-2',
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0].children[0].children[1]),
@@ -173,9 +183,10 @@ describe('getTaxonNodes', () => {
           name: 'Taxon 1-2',
           position: 0,
           slug: 'taxon-1-2-slug',
-          parent: 'id-taxon-taxon-1',
+          parent: 'id-taxon-pl-taxon-1',
           children: [],
-          id: 'id-taxon-taxon-1-2',
+          locale: 'pl',
+          id: 'id-taxon-pl-taxon-1-2',
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0].children[1]),
