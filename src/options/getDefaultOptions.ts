@@ -5,9 +5,6 @@ import {
 
 
 export const defaultOptions: SyliusSourcePluginOptions = {
-  components: {
-    taxonsPage: '',
-  },
   debug: false,
   locales: [],
   pages: [],

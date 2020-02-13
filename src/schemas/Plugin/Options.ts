@@ -5,7 +5,6 @@ export type PartialSyliusSourcePluginOptions = PluginOptions & Partial<SyliusSou
 export type SyliusSourcePluginOptions = PluginOptions & SyliusSourcePluginOptionsInterface;
 
 interface SyliusSourcePluginOptionsInterface extends PluginOptions {
-  components: SyliusSourcePluginComponents;
   debug: boolean;
   locales: string[];
   pages: SyliusSourcePluginPageDefinition[];
@@ -19,8 +18,4 @@ export interface SyliusSourcePluginPageDefinition {
 
 export enum SyliusSourcePluginPagesType {
   TAXON = 'taxon',
-}
-
-export interface SyliusSourcePluginComponents {
-  taxonsPage: string;
 }
