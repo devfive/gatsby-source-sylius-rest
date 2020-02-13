@@ -3,15 +3,19 @@ import { getDefaultOptions } from './options/getDefaultOptions';
 import { getPagesDefinitions } from './pagesDefinitions/getPagesDefinitions';
 import { BaseTaxonNode } from './schemas/Nodes/Taxon';
 import { PartialSyliusSourcePluginOptions, SyliusSourcePluginOptions } from './schemas/Plugin/Options';
+import { BaseProductNode } from './schemas/Nodes/Product';
 
 interface GraphQLQueryResult<T> {
   errors?: any;
   data?: T;
 }
 
-interface TaxonsQueryResult {
+interface QueryResult {
   allSyliusTaxon: {
     nodes: BaseTaxonNode[],
+  };
+  allSyliusProduct: {
+    nodes: BaseProductNode[],
   };
 }
 
@@ -30,7 +34,7 @@ export async function createPages(
     reporter.info('[Sylius Source] createPages');
   }
 
-  const { data }: GraphQLQueryResult<TaxonsQueryResult> = await graphql<TaxonsQueryResult>(`
+  const { data }: GraphQLQueryResult<QueryResult> = await graphql<QueryResult>(`
     query {
       allSyliusTaxon {
         nodes {
@@ -43,6 +47,38 @@ export async function createPages(
           code
         }
       }
+      allSyliusProduct {
+        nodes {
+          id
+          description
+          code
+          channelCode
+          averageRating
+          metaDescription
+          metaKeywords
+          name
+          shortDescription
+          slug
+          locale
+          taxons {
+            main
+            others
+          }
+          variants {
+            axis
+            code
+            nameAxis
+            originalPrice {
+              currency
+              current
+            }
+            price {
+              currency
+              current
+            }
+          }
+        }
+      }
     }
   `);
 
@@ -50,10 +86,14 @@ export async function createPages(
     return;
   }
 
-  const { allSyliusTaxon: { nodes: taxons } } = data;
+  const {
+    allSyliusProduct: { nodes: products },
+    allSyliusTaxon: { nodes: taxons },
+  } = data;
 
 
   const pagesDefinitions: Page[] = getPagesDefinitions(options.pages, {
+    products,
     taxons,
   });
 

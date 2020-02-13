@@ -55,6 +55,7 @@ export async function sourceNodes(
     url,
     locales,
   );
+
   if (localeProducts.length) {
     localeProducts.forEach(async ({ collection: products, locale }) => {
       const productNodes: ProductNode[] = getProductNodes(

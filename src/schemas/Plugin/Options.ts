@@ -18,5 +18,6 @@ export interface SyliusSourcePluginPageDefinition {
 }
 
 export enum SyliusSourcePluginPagesType {
+  PRODUCT = 'product',
   TAXON = 'taxon',
 }
