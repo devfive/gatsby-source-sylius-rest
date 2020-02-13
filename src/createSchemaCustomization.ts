@@ -1,13 +1,16 @@
 import { CreateSchemaCustomizationArgs } from 'gatsby';
+import { getDefaultOptions } from './options/getDefaultOptions';
 import {
-  defaultOptions,
+  PartialSyliusSourcePluginOptions,
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
 
 export function createSchemaCustomization(
   { actions: { createTypes }, reporter, schema }: CreateSchemaCustomizationArgs,
-  options: SyliusSourcePluginOptions = defaultOptions,
+  pluginOptions: PartialSyliusSourcePluginOptions,
 ):void {
+  const options: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
+
   if (options.debug) {
     reporter.info('[Sylius Source] createSchemaCustomization');
   }

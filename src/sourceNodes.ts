@@ -1,12 +1,13 @@
 import { SourceNodesArgs, NodeInput, Node } from 'gatsby';
+import { getTaxonNodes } from './nodes/getTaxonNodes';
+import { getDefaultOptions } from './options/getDefaultOptions';
+import { TaxonsProvider } from './providers/TaxonsProvider';
+import { TaxonNode } from './schemas/Nodes/Taxon';
 import {
-  defaultOptions,
+  PartialSyliusSourcePluginOptions,
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
-import { TaxonsProvider } from './providers/TaxonsProvider';
 import { SyliusTaxon } from './schemas/Sylius/Taxon';
-import { getTaxonNodes } from './nodes/getTaxonNodes';
-import { TaxonNode } from './schemas/Nodes/Taxon';
 
 export async function sourceNodes(
   {
@@ -15,10 +16,10 @@ export async function sourceNodes(
     createContentDigest,
     reporter,
   }: SourceNodesArgs,
-  options: SyliusSourcePluginOptions = defaultOptions,
+  pluginOptions: PartialSyliusSourcePluginOptions,
 ):Promise<void> {
+  const { debug, url }: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
   const { createNode, createParentChildLink } = actions;
-  const { debug, url } = options;
 
   if (debug) {
     reporter.info('[Sylius Source] sourceNodes');

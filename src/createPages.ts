@@ -1,9 +1,7 @@
 import { CreatePagesArgs } from 'gatsby';
-import {
-  defaultOptions,
-  SyliusSourcePluginOptions,
-} from './schemas/Plugin/Options';
+import { getDefaultOptions } from './options/getDefaultOptions';
 import { BaseTaxonNode } from './schemas/Nodes/Taxon';
+import { PartialSyliusSourcePluginOptions, SyliusSourcePluginOptions } from './schemas/Plugin/Options';
 
 interface GraphQLQueryResult<T> {
   errors?: any;
@@ -22,9 +20,10 @@ export async function createPages(
     graphql,
     reporter,
   }: CreatePagesArgs,
-  options: SyliusSourcePluginOptions = defaultOptions,
+  pluginOptions: PartialSyliusSourcePluginOptions,
 ): Promise<void> {
   const { createPage } = actions;
+  const options: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
 
   if (options.debug) {
     reporter.info('[Sylius Source] createPages');
@@ -45,11 +44,8 @@ export async function createPages(
     }
   `);
 
-  console.log(data);
   if (data !== undefined) {
     const { allSyliusTaxon: { nodes: taxons } } = data;
-
-    console.log(taxons);
 
     taxons.forEach((taxon: BaseTaxonNode) => {
       createPage({
