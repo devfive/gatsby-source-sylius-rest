@@ -45,6 +45,7 @@ export function createSchemaCustomization(
         code: 'String!',
         description: 'String',
         // images: 'SyliusImage[]',
+        locale: 'String!',
         metaKeywords: 'String',
         metaDescription: 'String',
         name: 'String!',
