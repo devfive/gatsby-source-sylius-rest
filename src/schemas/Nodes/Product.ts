@@ -1,4 +1,5 @@
 import { NodeInput } from 'gatsby';
+import { ComposeObjectTypeConfig } from 'graphql-compose';
 
 export interface BaseProductNode {
   // attributes: SyliusAttribute[];
@@ -17,3 +18,29 @@ export interface BaseProductNode {
 }
 
 export type ProductNode = BaseProductNode & NodeInput;
+
+export const productSchema: ComposeObjectTypeConfig<any, any> = {
+  name: 'SyliusProduct',
+  fields: {
+    // attributes: 'SyliusAttribute[]',
+    averageRating: 'Int',
+    channelCode: 'String!',
+    code: 'String!',
+    description: 'String',
+    // images: 'SyliusImage[]',
+    locale: 'String!',
+    metaKeywords: 'String',
+    metaDescription: 'String',
+    name: 'String!',
+    shortDescription: 'String',
+    slug: 'String!',
+    // taxons: 'SyliusProductTaxon',
+    // variants: '{ [key: string]: SyliusProductVariant }',
+  },
+  interfaces: [
+    'Node',
+  ],
+  extensions: {
+    infer: false,
+  },
+};
