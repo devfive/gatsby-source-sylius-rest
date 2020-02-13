@@ -1,9 +1,11 @@
 import { NodeInput } from 'gatsby';
 
-export interface TaxonNode extends NodeInput {
+export interface BaseTaxonNode {
   code: string,
   description: string,
   name: string,
   position: number,
   slug: string,
 }
+
+export type TaxonNode = BaseTaxonNode & NodeInput;
