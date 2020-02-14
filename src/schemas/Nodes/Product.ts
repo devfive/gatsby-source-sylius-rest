@@ -1,5 +1,6 @@
 import { NodeInput } from 'gatsby';
 import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { BaseImageNode } from './Image';
 import { BaseProductTaxonsNode } from './ProductTaxons';
 import { BaseProductVariantNode } from './ProductVariant';
 
@@ -9,7 +10,7 @@ export interface BaseProductNode {
   channelCode: string;
   code: string;
   description?: string;
-  // images: SyliusImage[];
+  images: BaseImageNode[];
   locale: string;
   metaKeywords?: string;
   metaDescription?: string;
@@ -30,7 +31,7 @@ export const productSchema: ComposeObjectTypeConfig<any, any> = {
     channelCode: 'String!',
     code: 'String!',
     description: 'String',
-    // images: 'SyliusImage[]',
+    images: '[SyliusImage]',
     locale: 'String!',
     metaKeywords: 'String',
     metaDescription: 'String',

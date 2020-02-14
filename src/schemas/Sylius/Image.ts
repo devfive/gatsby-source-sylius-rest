@@ -1,4 +1,4 @@
 export interface SyliusImage {
-  code: string;
+  cachedPath: string;
   path: string;
 }

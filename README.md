@@ -53,8 +53,3 @@ Please check [SyliusSourcePluginPageDefinition](https://github.com/devfive/gatsb
 - `component: string` - Path to the component in your project.
 - `path?: SyliusSourcePluginPagePath` - Path of page which will be created. It can be either string or object with locales as keys to retrieve localized path.
 - `type: SyliusSourcePluginPagesType` - Type of page - `taxon` or `product`.
-
-# TODO
-- taxons images,
-- product images,
-- release a NPM package.
