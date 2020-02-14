@@ -10,6 +10,7 @@ export interface BaseProductNode {
   code: string;
   description?: string;
   // images: SyliusImage[];
+  locale: string;
   metaKeywords?: string;
   metaDescription?: string;
   name: string;

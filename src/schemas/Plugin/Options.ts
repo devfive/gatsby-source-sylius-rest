@@ -4,6 +4,7 @@ export type PartialSyliusSourcePluginOptions = PluginOptions & Partial<SyliusSou
 
 export type SyliusSourcePluginOptions = PluginOptions & SyliusSourcePluginOptionsInterface;
 
+
 interface SyliusSourcePluginOptionsInterface extends PluginOptions {
   debug: boolean;
   locales: string[];
@@ -13,9 +14,12 @@ interface SyliusSourcePluginOptionsInterface extends PluginOptions {
 
 export interface SyliusSourcePluginPageDefinition {
   component: string;
-  path?: string;
+  path?: SyliusSourcePluginPagePath;
   type: SyliusSourcePluginPagesType;
 }
+
+export type SyliusSourcePluginPageLocalizedPathMap = { [locale: string]: string };
+export type SyliusSourcePluginPagePath = string | SyliusSourcePluginPageLocalizedPathMap;
 
 export enum SyliusSourcePluginPagesType {
   PRODUCT = 'product',
