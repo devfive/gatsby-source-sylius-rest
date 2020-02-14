@@ -5,7 +5,7 @@ export type PartialSyliusSourcePluginOptions = PluginOptions & Partial<SyliusSou
 export type SyliusSourcePluginOptions = PluginOptions & SyliusSourcePluginOptionsInterface;
 
 
-interface SyliusSourcePluginOptionsInterface extends PluginOptions {
+interface SyliusSourcePluginOptionsInterface {
   debug: boolean;
   locales: string[];
   pages: SyliusSourcePluginPageDefinition[];
