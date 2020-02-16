@@ -8,6 +8,7 @@
     "build": "tsc",
     "watch": "tsc --watch"
   },
+  "keywords": ["gatsby", "plugin", "sylius"],
   "dependencies": {
     "typed-rest-client": "^1.7.1",
     "url-pattern": "^1.0.3"
