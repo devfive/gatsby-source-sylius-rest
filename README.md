@@ -9,7 +9,7 @@
 # Sample configuration
 You should add plugin configuration to your `gatsby-config.js`:
 
-```
+```javascript
 module.exports = {
   plugins: [
     // plugins
