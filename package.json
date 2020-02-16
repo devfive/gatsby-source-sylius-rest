@@ -9,13 +9,18 @@
     "test": "jest",
     "watch": "tsc --watch"
   },
-  "keywords": ["gatsby", "plugin", "sylius"],
+  "keywords": [
+    "gatsby",
+    "plugin",
+    "sylius"
+  ],
   "dependencies": {
     "typed-rest-client": "^1.7.1",
     "url-pattern": "^1.0.3"
   },
   "devDependencies": {
     "@types/jest": "^25.1.2",
+    "@types/lodash": "^4.14.149",
     "@typescript-eslint/eslint-plugin": "^2.19.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
