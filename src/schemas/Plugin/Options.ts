@@ -1,11 +1,10 @@
 import { PluginOptions } from 'gatsby';
 
-export type PartialSyliusSourcePluginOptions = PluginOptions & Partial<SyliusSourcePluginOptions>;
-
 export type SyliusSourcePluginOptions = PluginOptions & SyliusSourcePluginOptionsInterface;
 
+export type PartialSyliusSourcePluginOptions = PluginOptions & Partial<SyliusSourcePluginOptions>;
 
-interface SyliusSourcePluginOptionsInterface {
+export interface SyliusSourcePluginOptionsInterface {
   debug: boolean;
   locales: string[];
   pages: SyliusSourcePluginPageDefinition[];
