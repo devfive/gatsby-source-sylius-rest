@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
+    "test": "jest",
     "watch": "tsc --watch"
   },
   "keywords": ["gatsby", "plugin", "sylius"],
