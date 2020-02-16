@@ -38,6 +38,7 @@ describe('getTaxonNodes', () => {
           parent: undefined,
           children: [],
           id: 'id-taxon-pl-taxon-1',
+          images: [],
           locale: 'pl',
           internal: {
             type: 'SyliusTaxon',
@@ -54,6 +55,7 @@ describe('getTaxonNodes', () => {
           parent: undefined,
           children: [],
           id: 'id-taxon-pl-taxon-2',
+          images: [],
           locale: 'pl',
           internal: {
             type: 'SyliusTaxon',
@@ -70,6 +72,7 @@ describe('getTaxonNodes', () => {
           parent: undefined,
           children: [],
           id: 'id-taxon-pl-taxon-3',
+          images: [],
           locale: 'pl',
           internal: {
             type: 'SyliusTaxon',
@@ -120,6 +123,7 @@ describe('getTaxonNodes', () => {
           ],
           locale: 'pl',
           id: 'id-taxon-pl-taxon-1',
+          images: [],
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0]),
@@ -139,6 +143,7 @@ describe('getTaxonNodes', () => {
           ],
           locale: 'pl',
           id: 'id-taxon-pl-taxon-1-1',
+          images: [],
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0].children[0]),
@@ -155,6 +160,7 @@ describe('getTaxonNodes', () => {
           children: [],
           locale: 'pl',
           id: 'id-taxon-pl-taxon-1-1-1',
+          images: [],
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0].children[0].children[0]),
@@ -171,6 +177,7 @@ describe('getTaxonNodes', () => {
           children: [],
           locale: 'pl',
           id: 'id-taxon-pl-taxon-1-1-2',
+          images: [],
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0].children[0].children[1]),
@@ -187,6 +194,7 @@ describe('getTaxonNodes', () => {
           children: [],
           locale: 'pl',
           id: 'id-taxon-pl-taxon-1-2',
+          images: [],
           internal: {
             type: 'SyliusTaxon',
             content: JSON.stringify(taxons[0].children[1]),
