@@ -8,17 +8,18 @@ const DEFAULT_PATH_PATTERN: string = '/:locale/:slug';
 
 export function getProductsPagesDefinitions(
   pluginPage: SyliusSourcePluginPageDefinition,
-  pages: BaseProductNode[],
+  products: BaseProductNode[],
 ): Page[] {
-  return pages.map((page: BaseProductNode) => {
-    const path: string = getPathPattern(pluginPage.path, page.locale, DEFAULT_PATH_PATTERN);
+  return products.map((product: BaseProductNode) => {
+    const path: string = getPathPattern(pluginPage.path, product.locale, DEFAULT_PATH_PATTERN);
     const pattern: UrlPattern = new UrlPattern(path);
 
     return {
-      path: pattern.stringify(page),
+      path: pattern.stringify(product),
       component: pluginPage.component,
       context: {
-        page,
+        code: product.code,
+        product,
       },
     };
   });
