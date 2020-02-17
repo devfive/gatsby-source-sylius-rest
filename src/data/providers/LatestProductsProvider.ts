@@ -13,9 +13,20 @@ export class LatestProductsProvider extends RestDataProvider<SyliusProduct> {
   }
 
   public async getRecords(options?: IRequestOptions):Promise<SyliusProduct[] | null> {
+    const defaultQueryParams: object = {
+      limit: 10000,
+    };
+
     const requestOptions: IRequestOptions = {
       ...options,
       responseProcessor: this.processResponse.bind(this),
+      queryParameters: {
+        ...options?.queryParameters,
+        params: {
+          ...defaultQueryParams,
+          ...options?.queryParameters?.params,
+        },
+      },
     };
 
     return super.getRecords(requestOptions);
