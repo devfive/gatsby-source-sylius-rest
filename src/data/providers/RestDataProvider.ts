@@ -1,6 +1,8 @@
 import { RestClient, IRestResponse, IRequestOptions } from 'typed-rest-client/RestClient';
+import { getPackageName } from '../../utils/getPackageName';
+import { getPackageVersion } from '../../utils/getPackageVersion';
 
-const userAgent: string = 'gatsby-source-sylius';
+const userAgent: string = `${getPackageName()}-${getPackageVersion()}`;
 
 export interface RestDataProviderOptions {
   resourceName: string;
