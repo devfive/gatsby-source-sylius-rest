@@ -1,14 +1,10 @@
-import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import { getValueFromJson } from './getValueFromJson';
 
-export function getPackageName(): string {
-  const path: string = resolve(__dirname, '../../', 'package.json');
-  const content: string = readFileSync(path).toString();
+const DEFAULT_NAME: string = 'gatsby-source-sylius-rest';
 
-  try {
-    const packageJson: { name: string } = JSON.parse(content);
-    return packageJson.name;
-  } catch (e) {
-    return '';
-  }
+export function getPackageName(
+  path: string = resolve(__dirname, '../../', 'package.json'),
+): string {
+  return getValueFromJson<string>('name', path, DEFAULT_NAME);
 }
