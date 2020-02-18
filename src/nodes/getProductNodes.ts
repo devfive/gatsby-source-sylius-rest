@@ -1,35 +1,79 @@
+import { FileSystemNode, createRemoteFileNode } from 'gatsby-source-filesystem';
 import { values } from 'lodash';
+import { ImageNode } from '../schemas/Nodes/Image';
 import { ProductNode } from '../schemas/Nodes/Product';
-import { SyliusProduct } from '../schemas/Sylius/Product';
+import { SyliusImage, SyliusProduct } from '../schemas/Sylius';
 
 type CreateNodeIdFunction = Function;
 type CreateContentDigestFunction = (input: any) => string;
 
-export function getProductNodes(
+interface GetProductNodesOptions {
+  cache: any;
+  createNode: any;
+  store: any;
+  reporter: any;
+}
+
+export async function getProductNodes(
   products: SyliusProduct[],
   locale: string,
   createNodeId: CreateNodeIdFunction,
   createContentDigest: CreateContentDigestFunction,
-): ProductNode[] {
-  return products.map((product: SyliusProduct) => {
-    return getProductNode(product, locale, createNodeId, createContentDigest);
-  });
+  options: GetProductNodesOptions,
+): Promise<ProductNode[]> {
+  return Promise.all(products.map((product: SyliusProduct) => {
+    return getProductNode(product, locale, createNodeId, createContentDigest, options);
+  }));
 }
 
-function getProductNode(
+async function getProductNode(
   product: SyliusProduct,
   locale: string,
   createNodeId: CreateNodeIdFunction,
   createContentDigest: CreateContentDigestFunction,
-): ProductNode {
+  options: GetProductNodesOptions,
+): Promise<ProductNode> {
+  const {
+    cache,
+    createNode,
+    store,
+    reporter,
+  } = options;
+
   const content: string = JSON.stringify(product);
   const id: string = createNodeId(`product-${locale}-${product.code}`);
+
+  const images: ImageNode[] = await Promise.all(product.images.map(async (image: SyliusImage) => {
+    const imageId: string = createNodeId(`image-${image.path}`);
+    const imageContent: string = JSON.stringify(image);
+    const fileNode: FileSystemNode = await createRemoteFileNode({
+      cache,
+      createNode,
+      createNodeId,
+      parentNodeId: imageId,
+      store,
+      url: image.cachedPath,
+      reporter,
+    });
+
+    return {
+      ...image,
+      file: fileNode,
+      id: imageId,
+      internal: {
+        type: 'SyliusImage',
+        content: imageContent,
+        contentDigest: createContentDigest(imageContent),
+      },
+    };
+  }));
 
   return {
     ...product,
     locale,
     id,
     variants: values(product.variants),
+    images,
     internal: {
       type: 'SyliusProduct',
       content,

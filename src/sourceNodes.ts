@@ -3,23 +3,24 @@ import { getAllLatestProducts } from './data/getAllLatestProducts';
 import { getAllTaxons } from './data/getAllTaxons';
 import { LocalizedCollection } from './data/getLocalizedCollections';
 import { createLinkedNodes } from './nodes/createLinkedNodes';
+import { getProductNodes } from './nodes/getProductNodes';
 import { getTaxonNodes } from './nodes/getTaxonNodes';
 import { getDefaultOptions } from './options/getDefaultOptions';
+import { ProductNode } from './schemas/Nodes/Product';
 import { TaxonNode } from './schemas/Nodes/Taxon';
 import {
   PartialSyliusSourcePluginOptions,
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
-import { SyliusProduct } from './schemas/Sylius/Product';
-import { SyliusTaxon } from './schemas/Sylius/Taxon';
-import { ProductNode } from './schemas/Nodes/Product';
-import { getProductNodes } from './nodes/getProductNodes';
+import { SyliusProduct, SyliusTaxon } from './schemas/Sylius';
 
 export async function sourceNodes(
   {
     actions,
+    cache,
     createNodeId,
     createContentDigest,
+    store,
     reporter,
   }: SourceNodesArgs,
   pluginOptions: PartialSyliusSourcePluginOptions,
@@ -58,14 +59,26 @@ export async function sourceNodes(
 
   if (localeProducts.length) {
     localeProducts.forEach(async ({ collection: products, locale }) => {
-      const productNodes: ProductNode[] = getProductNodes(
+      const productNodes: ProductNode[] = await getProductNodes(
         products,
         locale,
         createNodeId,
         createContentDigest,
+        {
+          cache,
+          createNode,
+          store,
+          reporter,
+        },
       );
 
       productNodes.forEach(async (node: ProductNode) => {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const imageNode of node.images) {
+          // eslint-disable-next-line no-await-in-loop
+          await createNode(imageNode);
+        }
+
         await createNode(node);
       });
     });

@@ -5,7 +5,8 @@ import { BaseImageNode } from './Image';
 export interface BaseTaxonNode {
   code: string,
   description: string,
-  images: BaseImageNode[];
+  // @todo: make required
+  images?: BaseImageNode[];
   name: string,
   locale: string,
   position: number,

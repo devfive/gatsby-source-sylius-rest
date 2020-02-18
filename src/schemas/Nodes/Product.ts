@@ -1,6 +1,6 @@
 import { NodeInput } from 'gatsby';
 import { ComposeObjectTypeConfig } from 'graphql-compose';
-import { BaseImageNode } from './Image';
+import { ImageNode } from './Image';
 import { BaseProductTaxonsNode } from './ProductTaxons';
 import { BaseProductVariantNode } from './ProductVariant';
 
@@ -10,7 +10,7 @@ export interface BaseProductNode {
   channelCode: string;
   code: string;
   description?: string;
-  images: BaseImageNode[];
+  images: ImageNode[];
   locale: string;
   metaKeywords?: string;
   metaDescription?: string;

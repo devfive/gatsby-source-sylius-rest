@@ -53,7 +53,9 @@ function getFlattenedTaxonNode(
       code: taxon.code,
       description: taxon.description,
       id,
-      images: taxon.images || [],
+      // @todo
+      // images: taxon.images || [],
+      images: [],
       internal: {
         type: 'SyliusTaxon',
         content,
