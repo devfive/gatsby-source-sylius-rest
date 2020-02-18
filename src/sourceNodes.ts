@@ -6,8 +6,7 @@ import { createLinkedNodes } from './nodes/createLinkedNodes';
 import { getProductNodes } from './nodes/getProductNodes';
 import { getTaxonNodes } from './nodes/getTaxonNodes';
 import { getDefaultOptions } from './options/getDefaultOptions';
-import { ProductNode } from './schemas/Nodes/Product';
-import { TaxonNode } from './schemas/Nodes/Taxon';
+import { ProductNode, TaxonNode } from './schemas/Nodes';
 import {
   PartialSyliusSourcePluginOptions,
   SyliusSourcePluginOptions,

@@ -1,7 +1,7 @@
 import { Page } from 'gatsby';
 import * as UrlPattern from 'url-pattern';
-import { SyliusSourcePluginPageDefinition } from '../../schemas/Plugin/Options';
-import { BaseProductNode } from '../../schemas/Nodes/Product';
+import { BaseProductNode } from '../../schemas/Nodes';
+import { SyliusSourcePluginPageDefinition } from '../../schemas/Plugin';
 import { getPathPattern } from '../utils/getPathPattern';
 
 const DEFAULT_PATH_PATTERN: string = '/:locale/:slug';

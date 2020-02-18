@@ -1,4 +1,4 @@
-import { SyliusTaxon } from '../../schemas/Sylius/Taxon';
+import { SyliusTaxon } from '../../schemas/Sylius';
 import { RestDataProvider, RestDataProviderOptions } from './RestDataProvider';
 
 export type TaxonsProviderOptions = Omit<RestDataProviderOptions, 'resourceName'>;

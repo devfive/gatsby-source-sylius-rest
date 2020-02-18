@@ -1,7 +1,9 @@
 import { Page } from 'gatsby';
-import { BaseProductNode } from '../schemas/Nodes/Product';
-import { BaseTaxonNode } from '../schemas/Nodes/Taxon';
-import { SyliusSourcePluginPageDefinition, SyliusSourcePluginPagesType } from '../schemas/Plugin/Options';
+import { BaseProductNode, BaseTaxonNode } from '../schemas/Nodes';
+import {
+  SyliusSourcePluginPageDefinition,
+  SyliusSourcePluginPagesType,
+} from '../schemas/Plugin';
 import { getProductsPagesDefinitions } from './products/getProductsPagesDefinitions';
 import { getTaxonPagesDefinitions } from './taxons/getTaxonPagesDefinitions';
 

@@ -1,5 +1,5 @@
 import { NodeInput } from 'gatsby';
-import { ProductNode } from '../../schemas/Nodes/Product';
+import { ProductNode } from '../../schemas/Nodes';
 import { isProductNode } from '../isProductNode';
 
 describe('isProductNode', () => {

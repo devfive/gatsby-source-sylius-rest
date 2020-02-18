@@ -1,9 +1,8 @@
 import { CreatePagesArgs, Page } from 'gatsby';
 import { getDefaultOptions } from './options/getDefaultOptions';
 import { getPagesDefinitions } from './pagesDefinitions/getPagesDefinitions';
-import { BaseTaxonNode } from './schemas/Nodes/Taxon';
+import { BaseTaxonNode, BaseProductNode } from './schemas/Nodes';
 import { PartialSyliusSourcePluginOptions, SyliusSourcePluginOptions } from './schemas/Plugin/Options';
-import { BaseProductNode } from './schemas/Nodes/Product';
 
 interface GraphQLQueryResult<T> {
   errors?: any;

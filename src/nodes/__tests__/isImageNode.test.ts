@@ -1,6 +1,6 @@
 import { NodeInput } from 'gatsby';
 import { FileSystemNode } from 'gatsby-source-filesystem';
-import { ImageNode } from '../../schemas/Nodes/Image';
+import { ImageNode } from '../../schemas/Nodes';
 import { isImageNode } from '../isImageNode';
 
 describe('isImageNode', () => {

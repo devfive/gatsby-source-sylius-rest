@@ -1,4 +1,4 @@
-import { SyliusTaxon } from '../schemas/Sylius/Taxon';
+import { SyliusTaxon } from '../schemas/Sylius';
 import { TaxonsProvider } from './providers/TaxonsProvider';
 import { getLocalizedCollections, LocalizedCollection } from './getLocalizedCollections';
 

@@ -1,5 +1,5 @@
 import { IRequestOptions } from 'typed-rest-client';
-import { SyliusProduct } from '../../schemas/Sylius/Product';
+import { SyliusProduct } from '../../schemas/Sylius';
 import { RestDataProvider, RestDataProviderOptions } from './RestDataProvider';
 
 export type LatestProductsProviderOptions = Omit<RestDataProviderOptions, 'resourceName'>;

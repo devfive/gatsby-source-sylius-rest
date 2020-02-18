@@ -1,7 +1,6 @@
 import { FileSystemNode, createRemoteFileNode } from 'gatsby-source-filesystem';
 import { values } from 'lodash';
-import { ImageNode } from '../schemas/Nodes/Image';
-import { ProductNode } from '../schemas/Nodes/Product';
+import { ImageNode, ProductNode } from '../schemas/Nodes';
 import { SyliusImage, SyliusProduct } from '../schemas/Sylius';
 
 type CreateNodeIdFunction = Function;

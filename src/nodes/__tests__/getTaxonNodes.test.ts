@@ -1,5 +1,5 @@
-import { SyliusTaxon } from '../../schemas/Sylius/Taxon';
-import { TaxonNode } from '../../schemas/Nodes/Taxon';
+import { TaxonNode } from '../../schemas/Nodes';
+import { SyliusTaxon } from '../../schemas/Sylius';
 import { getTaxonNodes } from '../getTaxonNodes';
 
 describe('getTaxonNodes', () => {

@@ -1,7 +1,6 @@
 import { Page } from 'gatsby';
-import { BaseProductNode } from '../schemas/Nodes/Product';
-import { BaseTaxonNode } from '../schemas/Nodes/Taxon';
-import { SyliusSourcePluginPageDefinition } from '../schemas/Plugin/Options';
+import { BaseProductNode, BaseTaxonNode } from '../schemas/Nodes';
+import { SyliusSourcePluginPageDefinition } from '../schemas/Plugin';
 import { getPagesForPluginPageDefinition } from './getPagesForPluginPageDefinition';
 
 export function getPagesDefinitions(

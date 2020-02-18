@@ -1,5 +1,5 @@
-import { TaxonNode } from '../schemas/Nodes/Taxon';
-import { SyliusTaxon } from '../schemas/Sylius/Taxon';
+import { TaxonNode } from '../schemas/Nodes';
+import { SyliusTaxon } from '../schemas/Sylius';
 
 type CreateNodeIdFunction = Function;
 type CreateContentDigestFunction = (input: any) => string;

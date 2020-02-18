@@ -1,4 +1,4 @@
-import { SyliusProduct } from '../schemas/Sylius/Product';
+import { SyliusProduct } from '../schemas/Sylius';
 import { LatestProductsProvider } from './providers/LatestProductsProvider';
 import { getLocalizedCollections, LocalizedCollection } from './getLocalizedCollections';
 
