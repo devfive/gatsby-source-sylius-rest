@@ -1,3 +1,5 @@
+![CI](https://github.com/devfive/gatsby-source-sylius-rest/workflows/CI/badge.svg?branch=master)
+
 `gatsby-source-sylius-rest` helps you source the data from Sylius e-Commerce framework.
 
 # Installation
