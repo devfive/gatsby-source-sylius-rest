@@ -37,5 +37,6 @@
   },
   "main": "index.js",
   "types": "index.d.ts",
-  "author": "Mateusz Rutkiewicz"
+  "author": "Mateusz Rutkiewicz",
+  "homepage": "https://github.com/devfive/gatsby-source-sylius-rest"
 }
