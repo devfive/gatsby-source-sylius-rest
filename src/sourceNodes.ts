@@ -19,6 +19,7 @@ export async function sourceNodes(
     cache,
     createNodeId,
     createContentDigest,
+    getCache,
     store,
     reporter,
   }: SourceNodesArgs,
@@ -66,6 +67,7 @@ export async function sourceNodes(
         {
           cache,
           createNode,
+          getCache,
           store,
           reporter,
         },
