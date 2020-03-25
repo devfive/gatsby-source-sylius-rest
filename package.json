@@ -32,8 +32,8 @@
     "typescript": "^3.7.5"
   },
   "peerDependencies": {
-    "gatsby": "^2.19.7",
-    "graphql": "14.5.0"
+    "gatsby": "^2.19.16",
+    "graphql": "^14.5.0"
   },
   "main": "index.js",
   "types": "index.d.ts",
