@@ -10,6 +10,7 @@ import { productPriceSchema } from './schemas/Nodes/ProductPrice';
 import { productTaxonsSchema } from './schemas/Nodes/ProductTaxons';
 import { productVariantSchema } from './schemas/Nodes/ProductVariant';
 import { taxonSchema } from './schemas/Nodes/Taxon';
+import { reportDebug } from './utils/reportDebug';
 
 export function createSchemaCustomization(
   { actions: { createTypes }, reporter, schema }: CreateSchemaCustomizationArgs,
@@ -17,9 +18,7 @@ export function createSchemaCustomization(
 ):void {
   const options: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
 
-  if (options.debug) {
-    reporter.info('[Sylius Source] createSchemaCustomization');
-  }
+  reportDebug(reporter, options, 'createSchemaCustomization');
 
   createTypes([
     schema.buildObjectType(productPriceSchema),
