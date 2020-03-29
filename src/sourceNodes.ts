@@ -12,6 +12,7 @@ import {
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
 import { SyliusProduct, SyliusTaxon } from './schemas/Sylius';
+import { reportDebug, report } from './utils/reportDebug';
 
 export async function sourceNodes(
   {
@@ -25,12 +26,11 @@ export async function sourceNodes(
   }: SourceNodesArgs,
   pluginOptions: PartialSyliusSourcePluginOptions,
 ):Promise<void> {
-  const { debug, locales, url }: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
+  const options: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
+  const { locales, url } = options;
   const { createNode, createParentChildLink } = actions;
 
-  if (debug) {
-    reporter.info('[Sylius Source] sourceNodes');
-  }
+  reportDebug(reporter, options, '[Sylius Source] sourceNodes');
 
   if (!url) {
     throw new Error('Missing `url` param!');
@@ -49,7 +49,7 @@ export async function sourceNodes(
       await createLinkedNodes(taxonNodes, createNode, createParentChildLink);
     });
   } else {
-    reporter.warn('[Sylius Source] No taxons has been found!');
+    report(reporter, '[Sylius Source] No taxons has been found!', 'warn');
   }
 
   const localeProducts: Array<LocalizedCollection<SyliusProduct>> = await getAllLatestProducts(
@@ -84,6 +84,6 @@ export async function sourceNodes(
       });
     });
   } else {
-    reporter.warn('[Sylius Source] No products has been found!');
+    report(reporter, '[Sylius Source] No products has been found!', 'warn');
   }
 }
