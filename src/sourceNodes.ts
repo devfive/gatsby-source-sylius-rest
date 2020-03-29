@@ -101,7 +101,7 @@ async function sourceProducts(
             });
 
             return Promise.all(productNodesPromises)
-              .then(() => reportDebug(reporter, options, 'Product sourced'));
+              .then(() => reportDebug(reporter, options, 'Locale products sourced'));
           });
 
         productsPromises.push(productPromise);
