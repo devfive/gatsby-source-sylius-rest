@@ -27,5 +27,5 @@ export function report(
   message: string,
   type: ReportType = 'info',
 ): void {
-  reporter[type](message);
+  reporter[type](`[sylius-rest] ${message}`);
 }
