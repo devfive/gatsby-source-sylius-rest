@@ -12,76 +12,153 @@ import {
   SyliusSourcePluginOptions,
 } from './schemas/Plugin/Options';
 import { SyliusProduct, SyliusTaxon } from './schemas/Sylius';
+import { reportDebug, report } from './utils/reportDebug';
 
 export async function sourceNodes(
+  args: SourceNodesArgs,
+  pluginOptions: PartialSyliusSourcePluginOptions,
+): Promise<any> {
+  const options: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
+  const {
+    reporter,
+  } = args;
+  reportDebug(reporter, options, '------------');
+  reportDebug(reporter, options, 'Source nodes');
+  reportDebug(reporter, options, '------------');
+
+  await sourceTaxons(args, options);
+  await sourceProducts(args, options);
+}
+
+async function sourceProducts(
   {
     actions,
     cache,
     createNodeId,
     createContentDigest,
-    store,
+    getCache,
     reporter,
+    store,
   }: SourceNodesArgs,
-  pluginOptions: PartialSyliusSourcePluginOptions,
-):Promise<void> {
-  const { debug, locales, url }: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
-  const { createNode, createParentChildLink } = actions;
-
-  if (debug) {
-    reporter.info('[Sylius Source] sourceNodes');
-  }
+  options: SyliusSourcePluginOptions,
+): Promise<void> {
+  const { locales, url } = options;
+  const { createNode } = actions;
 
   if (!url) {
     throw new Error('Missing `url` param!');
   }
 
-  const localeTaxons: Array<LocalizedCollection<SyliusTaxon>> = await getAllTaxons(url, locales);
-  if (localeTaxons.length) {
-    localeTaxons.forEach(async ({ collection: taxons, locale }) => {
-      const taxonNodes: TaxonNode[] = getTaxonNodes(
-        taxons,
-        locale,
-        createNodeId,
-        createContentDigest,
-      );
+  reportDebug(reporter, options, 'Source products');
+  reportDebug(reporter, options, '------------');
 
-      await createLinkedNodes(taxonNodes, createNode, createParentChildLink);
-    });
-  } else {
-    reporter.warn('[Sylius Source] No taxons has been found!');
-  }
+  return Promise.resolve()
+    .then(() => getAllLatestProducts(url, locales))
+    .then((localizedProducts: Array<LocalizedCollection<SyliusProduct>>) => {
+      if (!localizedProducts.length) {
+        report(reporter, 'No products has been found!', 'warn');
 
-  const localeProducts: Array<LocalizedCollection<SyliusProduct>> = await getAllLatestProducts(
-    url,
-    locales,
-  );
+        return Promise.resolve();
+      }
 
-  if (localeProducts.length) {
-    localeProducts.forEach(async ({ collection: products, locale }) => {
-      const productNodes: ProductNode[] = await getProductNodes(
-        products,
-        locale,
-        createNodeId,
-        createContentDigest,
-        {
-          cache,
-          createNode,
-          store,
-          reporter,
-        },
-      );
+      const productsPromises: Array<Promise<void>> = [];
 
-      productNodes.forEach(async (node: ProductNode) => {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const imageNode of node.images) {
-          // eslint-disable-next-line no-await-in-loop
-          await createNode(imageNode);
-        }
+      localizedProducts.forEach(({ collection: products, locale }) => {
+        reportDebug(reporter, options, `Source products - ${locale} (${products.length})`);
 
-        await createNode(node);
+        const productPromise: Promise<void> = Promise.resolve()
+          .then(() => getProductNodes(
+            products,
+            locale,
+            createNodeId,
+            createContentDigest,
+            {
+              cache,
+              createNode,
+              getCache,
+              reporter,
+              store,
+            },
+          ))
+          .then((productNodes: ProductNode[]) => {
+            const productNodesPromises: Array<Promise<any>> = [];
+
+            productNodes.forEach((node: ProductNode) => {
+              const imagesNodesPromises: Array<Promise<any>> = [];
+
+              node.images.forEach((imageNode) => {
+                imagesNodesPromises.push(
+                  Promise.resolve()
+                    .then(() => createNode(imageNode)),
+                );
+              });
+
+              productNodesPromises.push(
+                Promise
+                  .all(imagesNodesPromises)
+                  .then(() => createNode(node)),
+              );
+            });
+
+            return Promise.all(productNodesPromises)
+              .then(() => reportDebug(reporter, options, 'Locale products sourced'));
+          });
+
+        productsPromises.push(productPromise);
       });
+
+      return Promise.all(productsPromises)
+        .then(() => reportDebug(reporter, options, 'Products sourced'));
     });
-  } else {
-    reporter.warn('[Sylius Source] No products has been found!');
+}
+
+async function sourceTaxons(
+  {
+    actions,
+    createNodeId,
+    createContentDigest,
+    reporter,
+  }: SourceNodesArgs,
+  options: SyliusSourcePluginOptions,
+): Promise<void> {
+  const { locales, url } = options;
+  const { createNode, createParentChildLink } = actions;
+
+  if (!url) {
+    throw new Error('Missing `url` param!');
   }
+
+  reportDebug(reporter, options, 'Source taxons');
+  reportDebug(reporter, options, '------------');
+
+  return Promise.resolve()
+    .then(() => getAllTaxons(url, locales))
+    .then((localizedTaxons:Array<LocalizedCollection<SyliusTaxon>>) => {
+      if (!localizedTaxons.length) {
+        report(reporter, 'No taxons has been found!', 'warn');
+
+        return Promise.resolve();
+      }
+
+      const taxonsPromises: Array<Promise<void>> = [];
+
+      localizedTaxons.forEach(({ collection: taxons, locale }) => {
+        const taxonNodes: TaxonNode[] = getTaxonNodes(
+          taxons,
+          locale,
+          createNodeId,
+          createContentDigest,
+        );
+
+        taxonsPromises.push(
+          createLinkedNodes(taxonNodes, createNode, createParentChildLink),
+        );
+      });
+
+      return Promise.all(taxonsPromises)
+        .then(() => {
+          reportDebug(reporter, options, 'Taxons sourced');
+          reportDebug(reporter, options, '------------');
+        });
+    });
 }

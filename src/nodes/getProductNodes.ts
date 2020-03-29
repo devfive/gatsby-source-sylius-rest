@@ -1,4 +1,4 @@
-import { FileSystemNode, createRemoteFileNode } from 'gatsby-source-filesystem';
+import { FileSystemNode, createRemoteFileNode, CreateRemoteFileNodeArgs } from 'gatsby-source-filesystem';
 import { values } from 'lodash';
 import { ImageNode, ProductNode } from '../schemas/Nodes';
 import { SyliusImage, SyliusProduct } from '../schemas/Sylius';
@@ -9,6 +9,7 @@ type CreateContentDigestFunction = (input: any) => string;
 interface GetProductNodesOptions {
   cache: any;
   createNode: any;
+  getCache: any;
   store: any;
   reporter: any;
 }
@@ -35,6 +36,7 @@ async function getProductNode(
   const {
     cache,
     createNode,
+    getCache,
     store,
     reporter,
   } = options;
@@ -47,13 +49,14 @@ async function getProductNode(
     const imageContent: string = JSON.stringify(image);
     const fileNode: FileSystemNode = await createRemoteFileNode({
       cache,
+      getCache,
       createNode,
       createNodeId,
       parentNodeId: imageId,
       store,
       url: image.cachedPath,
       reporter,
-    });
+    } as CreateRemoteFileNodeArgs);
 
     return {
       ...image,
