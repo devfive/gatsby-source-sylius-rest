@@ -38,7 +38,7 @@ export async function sourceNodes(
 
   const localeTaxons: Array<LocalizedCollection<SyliusTaxon>> = await getAllTaxons(url, locales);
   if (localeTaxons.length) {
-    localeTaxons.forEach(async ({ collection: taxons, locale }) => {
+    await localeTaxons.forEach(async ({ collection: taxons, locale }) => {
       const taxonNodes: TaxonNode[] = getTaxonNodes(
         taxons,
         locale,
