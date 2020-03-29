@@ -25,7 +25,7 @@ export async function sourceNodes(
     reporter,
   }: SourceNodesArgs,
   pluginOptions: PartialSyliusSourcePluginOptions,
-):Promise<void> {
+): Promise<any> {
   const options: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
   const { locales, url } = options;
   const { createNode, createParentChildLink } = actions;
@@ -36,9 +36,15 @@ export async function sourceNodes(
     throw new Error('Missing `url` param!');
   }
 
+  const taxonsPromises: Array<Promise<any>> = [];
   const localeTaxons: Array<LocalizedCollection<SyliusTaxon>> = await getAllTaxons(url, locales);
+
   if (localeTaxons.length) {
-    await localeTaxons.forEach(async ({ collection: taxons, locale }) => {
+    reportDebug(reporter, options, '[Sylius Source] source taxons');
+
+    localeTaxons.forEach(async ({ collection: taxons, locale }) => {
+      reportDebug(reporter, options, `[Sylius Source] source taxons - ${locale} (${taxons.length})`);
+
       const taxonNodes: TaxonNode[] = getTaxonNodes(
         taxons,
         locale,
@@ -46,19 +52,26 @@ export async function sourceNodes(
         createContentDigest,
       );
 
-      await createLinkedNodes(taxonNodes, createNode, createParentChildLink);
+      taxonsPromises.push(
+        createLinkedNodes(taxonNodes, createNode, createParentChildLink),
+      );
     });
   } else {
     report(reporter, '[Sylius Source] No taxons has been found!', 'warn');
   }
 
+  const productsPromises: Array<Promise<any>> = [];
   const localeProducts: Array<LocalizedCollection<SyliusProduct>> = await getAllLatestProducts(
     url,
     locales,
   );
 
   if (localeProducts.length) {
-    await localeProducts.forEach(async ({ collection: products, locale }) => {
+    reportDebug(reporter, options, '[Sylius Source] source products');
+
+    localeProducts.forEach(async ({ collection: products, locale }) => {
+      reportDebug(reporter, options, `[Sylius Source] source products - ${locale} (${products.length})`);
+
       const productNodes: ProductNode[] = await getProductNodes(
         products,
         locale,
@@ -73,17 +86,26 @@ export async function sourceNodes(
         },
       );
 
-      productNodes.forEach(async (node: ProductNode) => {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const imageNode of node.images) {
-          // eslint-disable-next-line no-await-in-loop
-          await createNode(imageNode);
-        }
+      const productNodesPromises: Array<Promise<any>> = productNodes
+        .map(async (node: ProductNode) => {
+          const imagesNodesPromises: Array<Promise<any>> = node.images
+            .map(async (imageNode) => {
+              await createNode(imageNode);
+            });
 
-        await createNode(node);
-      });
+          return Promise
+            .all(imagesNodesPromises)
+            .then(() => createNode(node));
+        });
+
+      productsPromises.push(Promise.all(productNodesPromises));
     });
   } else {
     report(reporter, '[Sylius Source] No products has been found!', 'warn');
   }
+
+  return Promise.all([
+    ...taxonsPromises,
+    ...productsPromises,
+  ]);
 }
