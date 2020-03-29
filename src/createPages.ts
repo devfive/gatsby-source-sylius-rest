@@ -3,6 +3,7 @@ import { getDefaultOptions } from './options/getDefaultOptions';
 import { getPagesDefinitions } from './pagesDefinitions/getPagesDefinitions';
 import { BaseTaxonNode, BaseProductNode } from './schemas/Nodes';
 import { PartialSyliusSourcePluginOptions, SyliusSourcePluginOptions } from './schemas/Plugin/Options';
+import { reportDebug } from './utils/reportDebug';
 
 interface GraphQLQueryResult<T> {
   errors?: any;
@@ -29,9 +30,7 @@ export async function createPages(
   const { createPage } = actions;
   const options: SyliusSourcePluginOptions = getDefaultOptions(pluginOptions);
 
-  if (options.debug) {
-    reporter.info('[Sylius Source] createPages');
-  }
+  reportDebug(reporter, options, '[Sylius Source] createPages - init');
 
   const { data }: GraphQLQueryResult<QueryResult> = await graphql<QueryResult>(`
     query {
@@ -82,6 +81,8 @@ export async function createPages(
   `);
 
   if (!data) {
+    reportDebug(reporter, options, '[Sylius Source] createPages - no data, pages are not created');
+
     return;
   }
 
@@ -90,6 +91,9 @@ export async function createPages(
     allSyliusTaxon: { nodes: taxons },
   } = data;
 
+  reportDebug(reporter, options, '[Sylius Source] createPages - get pages definitions');
+  reportDebug(reporter, options, `[Sylius Source] createPages - ${products.length} products`);
+  reportDebug(reporter, options, `[Sylius Source] createPages - ${taxons.length} taxons`);
 
   const pagesDefinitions: Page[] = getPagesDefinitions(options.pages, {
     products,
