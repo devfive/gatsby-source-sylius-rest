@@ -58,7 +58,7 @@ export async function sourceNodes(
   );
 
   if (localeProducts.length) {
-    localeProducts.forEach(async ({ collection: products, locale }) => {
+    await localeProducts.forEach(async ({ collection: products, locale }) => {
       const productNodes: ProductNode[] = await getProductNodes(
         products,
         locale,
