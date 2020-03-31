@@ -11,7 +11,7 @@
   },
   "keywords": [
     "gatsby",
-    "plugin",
+    "gatsby-plugin",
     "sylius"
   ],
   "dependencies": {
