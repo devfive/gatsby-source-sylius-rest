@@ -5,7 +5,7 @@
 
 `gatsby-source-sylius-rest` helps you source the data from Sylius e-Commerce framework. It sources all necessary data and creates localized pages for you.
 
-### Learning Resources (optional)
+### Learning Resources
 
 This source plugin uses API provided by [SyliusShopApi](https://github.com/Sylius/ShopApiPlugin) bundle.
 
@@ -74,7 +74,7 @@ Please check [SyliusSourcePluginPageDefinition](https://github.com/devfive/gatsb
 |    path   |    no    |  SyliusSourcePluginPagePath | Path of page which will be created. It can be either string or object with locales as keys to retrieve localized path. |
 |    type   |    yes   | SyliusSourcePluginPagesType | Type of page - `taxon` or `product`.                                                                                   |
 
-## How to query for data (source plugins only)
+## How to query for data
 
 ### Products
 ```
@@ -137,3 +137,8 @@ query Taxons {
 ## How to run tests
 
 Write `yarn run test` in terminal or use launch configurations in your Visual Studio Code.
+
+## TODO
+
+1. Source products associations.
+2. Source products attributes.
