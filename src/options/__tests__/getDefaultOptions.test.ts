@@ -16,4 +16,46 @@ describe('getDefaultOptions', () => {
       expect(newOptions).toEqual(defaultOptions);
     });
   });
+
+  describe('when partial schemas are given', () => {
+    it('should return other schemas as empty object', () => {
+      // having
+      const options: PartialSyliusSourcePluginOptions = {
+        plugins: [],
+        schemas: {
+          image: {
+            imageField: 'String!',
+          },
+          product: {
+            productField: 'String!',
+          },
+          productPrice: {
+            productPriceField: 'String!',
+          },
+        },
+      };
+
+      // when
+      const newOptions: SyliusSourcePluginOptions = getDefaultOptions(options);
+
+      // then
+      expect(newOptions).toEqual({
+        ...defaultOptions,
+        schemas: {
+          image: {
+            imageField: 'String!',
+          },
+          product: {
+            productField: 'String!',
+          },
+          productPrice: {
+            productPriceField: 'String!',
+          },
+          productTaxons: {},
+          productVariant: {},
+          taxon: {},
+        },
+      });
+    });
+  });
 });

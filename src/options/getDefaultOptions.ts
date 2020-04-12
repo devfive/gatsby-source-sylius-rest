@@ -9,6 +9,14 @@ export const defaultOptions: SyliusSourcePluginOptions = {
   locales: [],
   pages: [],
   plugins: [],
+  schemas: {
+    image: {},
+    product: {},
+    productPrice: {},
+    productTaxons: {},
+    productVariant: {},
+    taxon: {},
+  },
 };
 
 export function getDefaultOptions(
@@ -17,5 +25,9 @@ export function getDefaultOptions(
   return {
     ...defaultOptions,
     ...options,
+    schemas: {
+      ...defaultOptions.schemas,
+      ...options.schemas,
+    },
   };
 }

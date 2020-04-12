@@ -2,12 +2,20 @@ import { PluginOptions } from 'gatsby';
 
 export type SyliusSourcePluginOptions = PluginOptions & SyliusSourcePluginOptionsInterface;
 
-export type PartialSyliusSourcePluginOptions = PluginOptions & Partial<SyliusSourcePluginOptions>;
+export type PartialSyliusSourcePluginOptions =
+  PluginOptions
+    & Omit<Partial<SyliusSourcePluginOptions>, 'schemas'>
+    & {
+      schemas?: PartialSyliusSourcePluginSchema;
+    };
+
+export type PartialSyliusSourcePluginSchema = Partial<SyliusSourcePluginSchema>;
 
 export interface SyliusSourcePluginOptionsInterface {
   debug: boolean;
   locales: string[];
   pages: SyliusSourcePluginPageDefinition[];
+  schemas: SyliusSourcePluginSchemas;
   url?: string;
 }
 
@@ -23,4 +31,17 @@ export type SyliusSourcePluginPagePath = string | SyliusSourcePluginPageLocalize
 export enum SyliusSourcePluginPagesType {
   PRODUCT = 'product',
   TAXON = 'taxon',
+}
+
+export interface SyliusSourcePluginSchemas {
+  image: SyliusSourcePluginSchema;
+  product: SyliusSourcePluginSchema;
+  productPrice: SyliusSourcePluginSchema;
+  productTaxons: SyliusSourcePluginSchema;
+  productVariant: SyliusSourcePluginSchema;
+  taxon: SyliusSourcePluginSchema;
+}
+
+export interface SyliusSourcePluginSchema {
+  [key: string]: any;
 }
