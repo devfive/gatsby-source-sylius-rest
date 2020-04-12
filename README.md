@@ -48,6 +48,11 @@ module.exports = {
             },
           },
         ],
+        schemas: {
+          product: {
+            variantSelectionMethod: 'String!',
+          },
+        },
       },
     },
   ],
@@ -63,16 +68,29 @@ Please check [SyliusSourcePluginOptionsInterface](https://github.com/devfive/gat
 |  debug  |    no    |               boolean              | Provides additional messages during Gatsby build                                                                                                 |
 | locales |    yes   |              string[]              | List of supported locales. They are required for retrieving data from Sylius API, sourcing GraphQL nodes and link building.                      |
 |  pages  |    no    | SyliusSourcePluginPageDefinition[] | Definitions of pages which should be created using Gatsby Node API (`createPages`). If empty, `gatsby-source-sylius-rest` will not create pages. |
+| schemas |    no    |      SyliusSourcePluginSchemas     | Definitions of additional or overriden fields in schemas that will be sourced.                                                                   |
 |   url   |    yes   |               string               | URL to the Sylius shop API.                                                                                                                      |
 
 #### Pages definitions options
-Please check [SyliusSourcePluginPageDefinition](https://github.com/devfive/gatsby-source-sylius-rest/blob/master/src/schemas/Plugin/Options.ts#L15) definition for TypeScript interface.
+Please check [SyliusSourcePluginSchemas](https://github.com/devfive/gatsby-source-sylius-rest/blob/master/src/schemas/Plugin/Options.ts#L36) definition for TypeScript interface.
 
 |    Name   | Required |             Type            | Description                                                                                                            |
 |:---------:|:--------:|:---------------------------:|------------------------------------------------------------------------------------------------------------------------|
 | component |    yes   |            string           | Path to the component in your project.                                                                                 |
 |    path   |    no    |  SyliusSourcePluginPagePath | Path of page which will be created. It can be either string or object with locales as keys to retrieve localized path. |
 |    type   |    yes   | SyliusSourcePluginPagesType | Type of page - `taxon` or `product`.                                                                                   |
+
+#### Schemas definitions options
+Please check [SyliusSourcePluginSchema](https://github.com/devfive/gatsby-source-sylius-rest/blob/master/src/schemas/Plugin/Options.ts#L45) definition for TypeScript interface.
+
+|      Name      | Required |            Type          | Description                                             |
+|:--------------:|:--------:|:------------------------:|---------------------------------------------------------|
+| image          |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusImage          |
+| product        |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusProduct        |
+| productPrice   |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusProductPrice   |
+| productTaxons  |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusProductTaxons  |
+| productVariant |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusProductVariant |
+| taxon          |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusTaxon          |
 
 ## How to query for data
 
