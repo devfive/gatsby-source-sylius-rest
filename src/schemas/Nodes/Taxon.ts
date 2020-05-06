@@ -5,8 +5,7 @@ import { BaseImageNode } from './Image';
 export interface BaseTaxonNode {
   code: string,
   description: string,
-  // @todo: make required
-  images?: BaseImageNode[];
+  images: BaseImageNode[];
   name: string,
   locale: string,
   position: number,
@@ -20,7 +19,7 @@ export const taxonSchema: ComposeObjectTypeConfig<any, any> = {
   fields: {
     code: 'String!',
     description: 'String',
-    images: '[SyliusImage]',
+    images: '[SyliusImage]!',
     locale: 'String!',
     name: 'String!',
     position: 'Int!',
