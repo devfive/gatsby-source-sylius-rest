@@ -43,7 +43,7 @@ export async function sourceProducts(
       localizedProducts.forEach(({ collection: products, locale }) => {
         reportDebug(reporter, options, `Source products - ${locale} (${products.length})`);
 
-        const productPromise: Promise<void> = Promise.resolve()
+        const productsPromise: Promise<void> = Promise.resolve()
           .then(() => getProductNodes(
             products,
             locale,
@@ -81,7 +81,7 @@ export async function sourceProducts(
               .then(() => reportDebug(reporter, options, 'Locale products sourced'));
           });
 
-        productsPromises.push(productPromise);
+        productsPromises.push(productsPromise);
       });
 
       return Promise.all(productsPromises)

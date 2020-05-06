@@ -11,9 +11,12 @@ import { reportDebug, report } from '../../utils/reportDebug';
 export async function sourceTaxons(
   {
     actions,
+    cache,
     createNodeId,
     createContentDigest,
+    getCache,
     reporter,
+    store,
   }: SourceNodesArgs,
   options: SyliusSourcePluginOptions,
 ): Promise<void> {
@@ -39,16 +42,42 @@ export async function sourceTaxons(
       const taxonsPromises: Array<Promise<void>> = [];
 
       localizedTaxons.forEach(({ collection: taxons, locale }) => {
-        const taxonNodes: TaxonNode[] = getTaxonNodes(
-          taxons,
-          locale,
-          createNodeId,
-          createContentDigest,
-        );
+        reportDebug(reporter, options, `Source taxons - ${locale} (${taxons.length})`);
 
-        taxonsPromises.push(
-          createLinkedNodes(taxonNodes, createNode, createParentChildLink),
-        );
+        return Promise.resolve()
+          .then(() => getTaxonNodes(
+            taxons,
+            locale,
+            {
+              cache,
+              createContentDigest,
+              createNode,
+              createNodeId,
+              getCache,
+              reporter,
+              store,
+            },
+          ))
+          .then((taxonNodes: TaxonNode[]) => {
+            const taxonNodesPromises: Array<Promise<any>> = [];
+
+            taxonNodes.forEach((node: TaxonNode) => {
+              const imagesNodesPromises: Array<Promise<any>> = [];
+
+              node.images.forEach((imageNode) => {
+                imagesNodesPromises.push(
+                  Promise.resolve()
+                    .then(() => createNode(imageNode)),
+                );
+              });
+
+              taxonNodesPromises.push(Promise.all(imagesNodesPromises));
+            });
+
+            return Promise.all(taxonNodesPromises)
+              .then(() => createLinkedNodes(taxonNodes, createNode, createParentChildLink))
+              .then(() => reportDebug(reporter, options, 'Locale taxons sourced'));
+          });
       });
 
       return Promise.all(taxonsPromises)

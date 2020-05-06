@@ -1,47 +1,58 @@
-import { TaxonNode } from '../schemas/Nodes';
+import { Reporter } from 'gatsby';
+import { flatten } from 'lodash';
+import { TaxonNode, ImageNode } from '../schemas/Nodes';
 import { SyliusTaxon } from '../schemas/Sylius';
+import { getImageNodes } from './getImageNodes';
 
 type CreateNodeIdFunction = Function;
 type CreateContentDigestFunction = (input: any) => string;
 
-export function getTaxonNodes(
-  taxons: SyliusTaxon[],
-  locale: string,
-  createNodeId: CreateNodeIdFunction,
-  createContentDigest: CreateContentDigestFunction,
-  parent?: string,
-): TaxonNode[] {
-  return taxons.reduce((nodes: TaxonNode[], taxon: SyliusTaxon) => {
-    const flatNodes: TaxonNode[] = getFlattenedTaxonNode(
-      taxon,
-      locale,
-      createNodeId,
-      createContentDigest,
-      parent,
-    );
-
-    return [
-      ...nodes,
-      ...flatNodes,
-    ];
-  }, []);
+interface GetTaxonNodesOptions {
+  cache: any;
+  createContentDigest: CreateContentDigestFunction;
+  createNode: any;
+  createNodeId: CreateNodeIdFunction;
+  getCache: any;
+  store: any;
+  reporter: Reporter;
 }
 
-function getFlattenedTaxonNode(
+export async function getTaxonNodes(
+  taxons: SyliusTaxon[],
+  locale: string,
+  options: GetTaxonNodesOptions,
+  parent?: string,
+): Promise<Array<TaxonNode>> {
+  const taxonsPromises: Array<Promise<Array<TaxonNode>>> = taxons
+    .map((taxon: SyliusTaxon) => getFlattenedTaxonNode(
+      taxon,
+      locale,
+      options,
+      parent,
+    ));
+
+  return Promise.all(taxonsPromises)
+    .then((taxonsArrays: Array<Array<TaxonNode>>) => flatten(taxonsArrays));
+}
+
+async function getFlattenedTaxonNode(
   taxon: SyliusTaxon,
   locale: string,
-  createNodeId: CreateNodeIdFunction,
-  createContentDigest: CreateContentDigestFunction,
+  options: GetTaxonNodesOptions,
   parent?: string,
-): TaxonNode[] {
+): Promise<Array<TaxonNode>> {
+  const { createContentDigest, createNodeId } = options;
   const content: string = JSON.stringify(taxon);
   const id: string = createNodeId(`taxon-${locale}-${taxon.code}`);
-  const childNodes: TaxonNode[] = getTaxonNodes(
+  const childNodes: TaxonNode[] = await getTaxonNodes(
     taxon.children,
     locale,
-    createNodeId,
-    createContentDigest,
+    options,
     id,
+  );
+  const images: ImageNode[] = await getImageNodes(
+    taxon.images,
+    options,
   );
   const children: string[] = childNodes
     .filter((node: TaxonNode) => node.parent === id)
@@ -53,9 +64,7 @@ function getFlattenedTaxonNode(
       code: taxon.code,
       description: taxon.description,
       id,
-      // @todo
-      // images: taxon.images || [],
-      images: [],
+      images,
       internal: {
         type: 'SyliusTaxon',
         content,

@@ -2,13 +2,17 @@ import { TaxonNode } from '../../schemas/Nodes';
 import { SyliusTaxon } from '../../schemas/Sylius';
 import { getTaxonNodes } from '../getTaxonNodes';
 
+const cache: any = {};
+const store: any = {};
+const reporter: any = {};
+
 describe('getTaxonNodes', () => {
   let taxons: SyliusTaxon[];
   let nodes: TaxonNode[];
   let locale: string;
 
   describe('when flat list of taxons is provided', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       // having
       locale = 'pl';
       taxons = [
@@ -18,7 +22,19 @@ describe('getTaxonNodes', () => {
       ];
 
       // when
-      nodes = getTaxonNodes(taxons, locale, createNodeId, createContentDigest);
+      nodes = await getTaxonNodes(
+        taxons,
+        locale,
+        {
+          cache,
+          createContentDigest,
+          createNode,
+          createNodeId,
+          getCache,
+          store,
+          reporter,
+        },
+      );
     });
 
     it('should have correct length', () => {
@@ -85,7 +101,7 @@ describe('getTaxonNodes', () => {
   });
 
   describe('when taxons with children are provided', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       // having
       locale = 'pl';
       taxons = [
@@ -99,7 +115,19 @@ describe('getTaxonNodes', () => {
       ];
 
       // when
-      nodes = getTaxonNodes(taxons, locale, createNodeId, createContentDigest);
+      nodes = await getTaxonNodes(
+        taxons,
+        locale,
+        {
+          cache,
+          createContentDigest,
+          createNode,
+          createNodeId,
+          getCache,
+          store,
+          reporter,
+        },
+      );
     });
 
     it('should have correct length', () => {
@@ -232,4 +260,14 @@ function createNodeId(id: string): string {
 
 function createContentDigest(content: string): string {
   return `content-${content}`;
+}
+
+function createNode(): void {
+  // eslint-disable-next-line no-useless-return
+  return;
+}
+
+function getCache(): void {
+  // eslint-disable-next-line no-useless-return
+  return;
 }

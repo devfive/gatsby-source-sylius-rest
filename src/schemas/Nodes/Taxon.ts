@@ -1,11 +1,11 @@
 import { NodeInput } from 'gatsby';
 import { ComposeObjectTypeConfig } from 'graphql-compose';
-import { BaseImageNode } from './Image';
+import { ImageNode } from './Image';
 
 export interface BaseTaxonNode {
   code: string,
   description: string,
-  images: BaseImageNode[];
+  images: ImageNode[];
   name: string,
   locale: string,
   position: number,
