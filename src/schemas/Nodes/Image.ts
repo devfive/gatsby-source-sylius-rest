@@ -4,7 +4,8 @@ import { ComposeObjectTypeConfig } from 'graphql-compose';
 
 export interface BaseImageNode {
   cachedPath: string;
-  file: FileSystemNode
+  code?: string;
+  file: FileSystemNode;
   path: string;
 }
 
@@ -14,6 +15,7 @@ export const imageSchema: ComposeObjectTypeConfig<any, any> = {
   name: 'SyliusImage',
   fields: {
     cachedPath: 'String!',
+    code: 'String',
     file: 'File!',
     path: 'String!',
   },
