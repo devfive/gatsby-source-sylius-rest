@@ -29,7 +29,7 @@
     "graphql": "^14.5.0",
     "jest": "^26.0.1",
     "ts-jest": "^26.1.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.9.5"
   },
   "peerDependencies": {
     "gatsby": "^2.19.16",
