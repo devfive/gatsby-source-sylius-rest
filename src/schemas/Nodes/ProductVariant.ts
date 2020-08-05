@@ -1,4 +1,4 @@
-import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 import { BaseProductPriceNode } from './ProductPrice';
 
 export interface BaseProductVariantNode {
@@ -12,7 +12,7 @@ export interface BaseProductVariantNode {
 }
 
 
-export const productVariantSchema: ComposeObjectTypeConfig<any, any> = {
+export const productVariantSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
   name: 'SyliusProductVariant',
   fields: {
     axis: '[String]!',

@@ -1,9 +1,9 @@
-import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 import { SyliusSourcePluginSchema } from '../Plugin';
 import { getObjectSchema } from '../getObjectSchema';
 
 describe('getObjectSchema', () => {
-  let baseSchema: ComposeObjectTypeConfig<any, any>;
+  let baseSchema: ObjectTypeComposerAsObjectDefinition<any, any>;
 
   beforeEach(() => {
     // having
@@ -49,7 +49,7 @@ describe('getObjectSchema', () => {
 
     it('should return updated schema', () => {
       // having
-      const expectedSchema: ComposeObjectTypeConfig<any, any> = {
+      const expectedSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
         name: 'SyliusProductPrice',
         fields: {
           current: 'String!',
@@ -81,7 +81,7 @@ describe('getObjectSchema', () => {
 
     it('should return updated schema', () => {
       // having
-      const expectedSchema: ComposeObjectTypeConfig<any, any> = {
+      const expectedSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
         name: 'SyliusProductPrice',
         fields: {
           current: 'Int!',

@@ -1,6 +1,6 @@
 import { NodeInput } from 'gatsby';
 import { FileSystemNode } from 'gatsby-source-filesystem';
-import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 
 export interface BaseImageNode {
   cachedPath: string;
@@ -11,7 +11,7 @@ export interface BaseImageNode {
 
 export type ImageNode = BaseImageNode & NodeInput;
 
-export const imageSchema: ComposeObjectTypeConfig<any, any> = {
+export const imageSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
   name: 'SyliusImage',
   fields: {
     cachedPath: 'String!',

@@ -1,5 +1,5 @@
 import { NodeInput } from 'gatsby';
-import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 import { ImageNode } from './Image';
 import { BaseProductTaxonsNode } from './ProductTaxons';
 import { BaseProductVariantNode } from './ProductVariant';
@@ -23,7 +23,7 @@ export interface BaseProductNode {
 
 export type ProductNode = BaseProductNode & NodeInput;
 
-export const productSchema: ComposeObjectTypeConfig<any, any> = {
+export const productSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
   name: 'SyliusProduct',
   fields: {
     // attributes: 'SyliusAttribute[]',

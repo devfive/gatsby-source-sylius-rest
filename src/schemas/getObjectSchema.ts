@@ -1,7 +1,7 @@
-import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 import { SyliusSourcePluginSchema } from './Plugin';
 
-type Schema = ComposeObjectTypeConfig<any, any>;
+type Schema = ObjectTypeComposerAsObjectDefinition<any, any>;
 
 export function getObjectSchema(
   schema: Schema,
