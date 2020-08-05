@@ -1,5 +1,5 @@
 import { NodeInput } from 'gatsby';
-import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 import { ImageNode } from './Image';
 
 export interface BaseTaxonNode {
@@ -14,7 +14,7 @@ export interface BaseTaxonNode {
 
 export type TaxonNode = BaseTaxonNode & NodeInput;
 
-export const taxonSchema: ComposeObjectTypeConfig<any, any> = {
+export const taxonSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
   name: 'SyliusTaxon',
   fields: {
     code: 'String!',

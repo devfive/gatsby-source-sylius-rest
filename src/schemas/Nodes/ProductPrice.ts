@@ -1,11 +1,11 @@
-import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 
 export interface BaseProductPriceNode {
   current: number;
   currency: string;
 }
 
-export const productPriceSchema: ComposeObjectTypeConfig<any, any> = {
+export const productPriceSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
   name: 'SyliusProductPrice',
   fields: {
     current: 'Int!',

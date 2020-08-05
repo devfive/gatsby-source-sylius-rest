@@ -1,11 +1,11 @@
-import { ComposeObjectTypeConfig } from 'graphql-compose';
+import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 
 export interface BaseProductTaxonsNode {
   main: string;
   others: string[];
 }
 
-export const productTaxonsSchema: ComposeObjectTypeConfig<any, any> = {
+export const productTaxonsSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
   name: 'SyliusProductTaxons',
   fields: {
     main: 'String',
