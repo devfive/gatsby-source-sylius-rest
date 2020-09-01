@@ -1,6 +1,7 @@
 import { values } from 'lodash';
-import { ImageNode, ProductNode } from '../schemas/Nodes';
+import { AssociationTypeNode, ImageNode, ProductNode } from '../schemas/Nodes';
 import { SyliusProduct } from '../schemas/Sylius';
+import { getAssociationsNodes } from './getAssociationsNodes';
 import { getImageNodes } from './getImageNodes';
 
 type CreateNodeIdFunction = Function;
@@ -56,8 +57,24 @@ async function getProductNode(
     },
   );
 
+  const associations: AssociationTypeNode[] = await getAssociationsNodes(
+    product.associations,
+    product.code,
+    locale,
+    {
+      cache,
+      createContentDigest,
+      createNode,
+      createNodeId,
+      getCache,
+      store,
+      reporter,
+    },
+  );
+
   return {
     ...product,
+    associations,
     locale,
     id,
     variants: values(product.variants),

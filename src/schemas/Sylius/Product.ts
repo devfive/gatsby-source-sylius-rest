@@ -2,9 +2,11 @@ import { SyliusAttribute } from './Attribute';
 import { SyliusImage } from './Image';
 import { SyliusProductTaxons } from './ProductTaxons';
 import { SyliusProductVariant } from './ProductVariant';
+import { SyliusAssociations } from './Associations';
 
 // @todo: add associations
 export interface SyliusProduct {
+  associations: SyliusAssociations;
   attributes: SyliusAttribute[];
   averageRating: number;
   channelCode: string;

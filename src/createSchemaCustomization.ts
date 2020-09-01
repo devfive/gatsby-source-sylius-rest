@@ -12,6 +12,7 @@ import { productVariantSchema } from './schemas/Nodes/ProductVariant';
 import { taxonSchema } from './schemas/Nodes/Taxon';
 import { reportDebug } from './utils/reportDebug';
 import { getObjectSchema } from './schemas/getObjectSchema';
+import { associationTypeSchema } from './schemas/Nodes/AssociationType';
 
 export function createSchemaCustomization(
   { actions: { createTypes }, reporter, schema }: CreateSchemaCustomizationArgs,
@@ -25,6 +26,8 @@ export function createSchemaCustomization(
     schema.buildObjectType(getObjectSchema(productPriceSchema, options.schemas.productPrice)),
     schema.buildObjectType(getObjectSchema(productVariantSchema, options.schemas.productVariant)),
     schema.buildObjectType(getObjectSchema(productTaxonsSchema, options.schemas.productTaxons)),
+    // todo
+    schema.buildObjectType(getObjectSchema(associationTypeSchema, {})),
     schema.buildObjectType(getObjectSchema(imageSchema, options.schemas.image)),
     schema.buildObjectType(getObjectSchema(taxonSchema, options.schemas.taxon)),
     schema.buildObjectType(getObjectSchema(productSchema, options.schemas.product)),

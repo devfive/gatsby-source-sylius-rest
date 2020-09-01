@@ -1,3 +1,4 @@
+export { BaseAssociationTypeNode, AssociationTypeNode } from './AssociationType';
 export { BaseImageNode, ImageNode } from './Image';
 export { BaseProductNode, ProductNode } from './Product';
 export { BaseProductPriceNode } from './ProductPrice';

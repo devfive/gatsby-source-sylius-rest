@@ -27,6 +27,7 @@ export const productSchema: ObjectTypeComposerAsObjectDefinition<any, any> = {
   name: 'SyliusProduct',
   fields: {
     // attributes: 'SyliusAttribute[]',
+    associations: '[SyliusAssociationType]',
     averageRating: 'Float',
     channelCode: 'String!',
     code: 'String!',
