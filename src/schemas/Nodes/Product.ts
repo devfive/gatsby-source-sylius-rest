@@ -3,9 +3,11 @@ import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 import { ImageNode } from './Image';
 import { BaseProductTaxonsNode } from './ProductTaxons';
 import { BaseProductVariantNode } from './ProductVariant';
+import { BaseAssociationTypeNode } from './AssociationType';
 
 export interface BaseProductNode {
   // attributes: SyliusAttribute[];
+  associations: BaseAssociationTypeNode[];
   averageRating?: number;
   channelCode: string;
   code: string;

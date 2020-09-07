@@ -2,12 +2,14 @@ import { NodeInput } from 'gatsby';
 import { ObjectTypeComposerAsObjectDefinition } from 'graphql-compose';
 import { BaseProductNode } from './Product';
 
+export type AssociatedProductNode = Omit<BaseProductNode, 'associations'>;
+
 export interface BaseAssociationTypeNode {
   code: string;
   locale: string;
   productCode: string;
   size: number;
-  products: BaseProductNode[];
+  products: AssociatedProductNode[];
 }
 
 export type AssociationTypeNode = BaseAssociationTypeNode & NodeInput;

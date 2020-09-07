@@ -7,6 +7,7 @@ describe('isProductNode', () => {
     it('should return true', () => {
       // having
       const node: ProductNode = {
+        associations: [],
         channelCode: 'channel',
         code: 'code',
         id: 'id',

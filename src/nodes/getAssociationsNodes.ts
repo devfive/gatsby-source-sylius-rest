@@ -4,8 +4,8 @@ import {
   AssociationTypeNode,
   BaseAssociationTypeNode,
   ImageNode,
-  BaseProductNode,
 } from '../schemas/Nodes';
+import { AssociatedProductNode } from '../schemas/Nodes/AssociationType';
 import { SyliusAssociations } from '../schemas/Sylius/Associations';
 import { SyliusProduct } from '../schemas/Sylius/Product';
 import { getImageNodes } from './getImageNodes';
@@ -42,7 +42,7 @@ export async function getAssociationsNodes(
   const associationsIds: string[] = Object.keys(associations);
   const associationsNodes: Array<Promise<AssociationTypeNode>> = associationsIds
     .map(async (code: string) => {
-      const products: BaseProductNode[] = await Promise.all(
+      const products: AssociatedProductNode[] = await Promise.all(
         associations[code].map(async (product: SyliusProduct) => {
           const images: ImageNode[] = await getImageNodes(
             product.images,
