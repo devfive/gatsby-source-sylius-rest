@@ -1,8 +1,14 @@
 import { Reporter } from 'gatsby';
 import { values } from 'lodash';
-import { AssociationTypeNode, BaseAssociationTypeNode } from '../schemas/Nodes';
+import {
+  AssociationTypeNode,
+  BaseAssociationTypeNode,
+  ImageNode,
+  BaseProductNode,
+} from '../schemas/Nodes';
 import { SyliusAssociations } from '../schemas/Sylius/Associations';
 import { SyliusProduct } from '../schemas/Sylius/Product';
+import { getImageNodes } from './getImageNodes';
 
 type CreateNodeIdFunction = Function;
 type CreateContentDigestFunction = (input: any) => string;
@@ -24,26 +30,47 @@ export async function getAssociationsNodes(
   options: GetAssociationsNodesOptions,
 ): Promise<Array<AssociationTypeNode>> {
   const {
+    cache,
     createContentDigest,
+    createNode,
     createNodeId,
+    getCache,
     reporter,
+    store,
   } = options;
 
   const associationsIds: string[] = Object.keys(associations);
-  const associationsNodes: Array<AssociationTypeNode> = associationsIds
-    .map((code: string) => {
+  const associationsNodes: Array<Promise<AssociationTypeNode>> = associationsIds
+    .map(async (code: string) => {
+      const products: BaseProductNode[] = await Promise.all(
+        associations[code].map(async (product: SyliusProduct) => {
+          const images: ImageNode[] = await getImageNodes(
+            product.images,
+            {
+              cache,
+              createContentDigest,
+              createNode,
+              createNodeId,
+              getCache,
+              store,
+              reporter,
+            },
+          );
+
+          return {
+            ...product,
+            locale,
+            images,
+            variants: values(product.variants),
+          };
+        }),
+      );
+
       const node: BaseAssociationTypeNode = {
         code,
         locale,
         productCode,
-        products: associations[code].map((product: SyliusProduct) => {
-          return {
-            ...product,
-            locale,
-            images: [],
-            variants: values(product.variants),
-          };
-        }),
+        products,
         size: associations[code].length,
       };
 
@@ -60,33 +87,6 @@ export async function getAssociationsNodes(
         },
       };
     });
-
-  reporter.warn(JSON.stringify(associationsNodes));
-  // const imagesPromises: Array<Promise<ImageNode>> = images.map(async (image: SyliusImage) => {
-  //   const imageId: string = createNodeId(`image-${image.path}`);
-  //   const imageContent: string = JSON.stringify(image);
-  //   const fileNode: FileSystemNode = await createRemoteFileNode({
-  //     cache,
-  //     getCache,
-  //     createNode,
-  //     createNodeId,
-  //     parentNodeId: imageId,
-  //     store,
-  //     url: image.cachedPath,
-  //     reporter,
-  //   } as CreateRemoteFileNodeArgs);
-
-  //   return {
-  //     ...image,
-  //     file: fileNode,
-  //     id: imageId,
-  //     internal: {
-  //       type: 'SyliusAssociationType',
-  //       content: imageContent,
-  //       contentDigest: createContentDigest(imageContent),
-  //     },
-  //   };
-  // });
 
   return Promise.all(associationsNodes);
 }
