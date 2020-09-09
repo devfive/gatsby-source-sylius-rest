@@ -42,6 +42,7 @@ describe('getDefaultOptions', () => {
       expect(newOptions).toEqual({
         ...defaultOptions,
         schemas: {
+          associationType: {},
           image: {
             imageField: 'String!',
           },

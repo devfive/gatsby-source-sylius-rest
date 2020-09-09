@@ -87,6 +87,7 @@ Please check [SyliusSourcePluginSchema](https://github.com/devfive/gatsby-source
 
 |      Name      | Required |            Type          | Description                                             |
 |:--------------:|:--------:|:------------------------:|---------------------------------------------------------|
+| associationType|    no    | SyliusSourcePluginSchema | Additional or overriden fields for Sylius product associations          |
 | image          |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusImage          |
 | product        |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusProduct        |
 | productPrice   |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusProductPrice   |

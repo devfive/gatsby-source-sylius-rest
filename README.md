@@ -82,6 +82,5 @@ Write `yarn run test` in terminal or use launch configurations in your Visual St
 
 ## TODO
 
-1. Source products associations.
-2. Source products attributes.
-3. Source product variant images.
+1. Source products attributes.
+2. Source product variant images.
