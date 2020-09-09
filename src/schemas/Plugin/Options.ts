@@ -34,6 +34,7 @@ export enum SyliusSourcePluginPagesType {
 }
 
 export interface SyliusSourcePluginSchemas {
+  associationType: SyliusSourcePluginSchema;
   image: SyliusSourcePluginSchema;
   product: SyliusSourcePluginSchema;
   productPrice: SyliusSourcePluginSchema;

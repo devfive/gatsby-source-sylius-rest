@@ -10,6 +10,7 @@ export const defaultOptions: SyliusSourcePluginOptions = {
   pages: [],
   plugins: [],
   schemas: {
+    associationType: {},
     image: {},
     product: {},
     productPrice: {},
