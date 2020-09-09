@@ -44,6 +44,7 @@ export async function getAssociationsNodes(
     .map(async (code: string) => {
       const products: AssociatedProductNode[] = await Promise.all(
         associations[code].map(async (product: SyliusProduct) => {
+          const id: string = createNodeId(`product-${locale}-${product.code}`);
           const images: ImageNode[] = await getImageNodes(
             product.images,
             {
@@ -59,6 +60,7 @@ export async function getAssociationsNodes(
 
           return {
             ...product,
+            id,
             locale,
             images,
             variants: values(product.variants),
