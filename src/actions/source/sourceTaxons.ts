@@ -8,6 +8,8 @@ import { SyliusSourcePluginOptions } from '../../schemas/Plugin';
 import { SyliusTaxon } from '../../schemas/Sylius';
 import { reportDebug, report } from '../../utils/reportDebug';
 
+export type LocalizedTaxons = Array<LocalizedCollection<SyliusTaxon>>;
+
 export async function sourceTaxons(
   {
     actions,
@@ -19,7 +21,7 @@ export async function sourceTaxons(
     store,
   }: SourceNodesArgs,
   options: SyliusSourcePluginOptions,
-): Promise<void> {
+): Promise<LocalizedTaxons> {
   const { locales, url } = options;
   const { createNode, createParentChildLink } = actions;
 
@@ -30,60 +32,59 @@ export async function sourceTaxons(
   reportDebug(reporter, options, 'Source taxons');
   reportDebug(reporter, options, '------------');
 
-  return Promise.resolve()
-    .then(() => getAllTaxons(url, locales))
-    .then((localizedTaxons:Array<LocalizedCollection<SyliusTaxon>>) => {
-      if (!localizedTaxons.length) {
-        report(reporter, 'No taxons has been found!', 'warn');
+  const localizedTaxons: LocalizedTaxons = await getAllTaxons(url, locales);
 
-        return Promise.resolve();
-      }
+  if (!localizedTaxons.length) {
+    report(reporter, 'No taxons has been found!', 'warn');
 
-      const taxonsPromises: Array<Promise<void>> = [];
+    return Promise.resolve([]);
+  }
 
-      localizedTaxons.forEach(({ collection: taxons, locale }) => {
-        reportDebug(reporter, options, `Source taxons - ${locale} (${taxons.length})`);
+  const taxonsPromises: Array<Promise<void>> = [];
 
-        return Promise.resolve()
-          .then(() => getTaxonNodes(
-            taxons,
-            locale,
-            {
-              cache,
-              createContentDigest,
-              createNode,
-              createNodeId,
-              getCache,
-              reporter,
-              store,
-            },
-          ))
-          .then((taxonNodes: TaxonNode[]) => {
-            const taxonNodesPromises: Array<Promise<any>> = [];
+  localizedTaxons.forEach(({ collection: taxons, locale }) => {
+    reportDebug(reporter, options, `Source taxons - ${locale} (${taxons.length})`);
 
-            taxonNodes.forEach((node: TaxonNode) => {
-              const imagesNodesPromises: Array<Promise<any>> = [];
+    return Promise.resolve()
+      .then(() => getTaxonNodes(
+        taxons,
+        locale,
+        {
+          cache,
+          createContentDigest,
+          createNode,
+          createNodeId,
+          getCache,
+          reporter,
+          store,
+        },
+      ))
+      .then((taxonNodes: TaxonNode[]) => {
+        const taxonNodesPromises: Array<Promise<any>> = [];
 
-              node.images.forEach((imageNode) => {
-                imagesNodesPromises.push(
-                  Promise.resolve()
-                    .then(() => createNode(imageNode)),
-                );
-              });
+        taxonNodes.forEach((node: TaxonNode) => {
+          const imagesNodesPromises: Array<Promise<any>> = [];
 
-              taxonNodesPromises.push(Promise.all(imagesNodesPromises));
-            });
-
-            return Promise.all(taxonNodesPromises)
-              .then(() => createLinkedNodes(taxonNodes, createNode, createParentChildLink))
-              .then(() => reportDebug(reporter, options, 'Locale taxons sourced'));
+          node.images.forEach((imageNode) => {
+            imagesNodesPromises.push(
+              Promise.resolve()
+                .then(() => createNode(imageNode)),
+            );
           });
-      });
 
-      return Promise.all(taxonsPromises)
-        .then(() => {
-          reportDebug(reporter, options, 'Taxons sourced');
-          reportDebug(reporter, options, '------------');
+          taxonNodesPromises.push(Promise.all(imagesNodesPromises));
         });
-    });
+
+        return Promise.all(taxonNodesPromises)
+          .then(() => createLinkedNodes(taxonNodes, createNode, createParentChildLink))
+          .then(() => reportDebug(reporter, options, 'Locale taxons sourced'));
+      });
+  });
+
+  await Promise.all(taxonsPromises);
+
+  reportDebug(reporter, options, 'Taxons sourced');
+  reportDebug(reporter, options, '------------');
+
+  return localizedTaxons;
 }
