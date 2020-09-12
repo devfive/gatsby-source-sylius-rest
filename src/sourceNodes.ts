@@ -1,6 +1,6 @@
 import { SourceNodesArgs } from 'gatsby';
 import { sourceProducts } from './actions/source/sourceProducts';
-import { sourceTaxons } from './actions/source/sourceTaxons';
+import { LocalizedTaxons, sourceTaxons } from './actions/source/sourceTaxons';
 import { getDefaultOptions } from './options/getDefaultOptions';
 import {
   PartialSyliusSourcePluginOptions,
@@ -20,6 +20,6 @@ export async function sourceNodes(
   reportDebug(reporter, options, 'Source nodes');
   reportDebug(reporter, options, '------------');
 
-  await sourceTaxons(args, options);
-  await sourceProducts(args, options);
+  const taxons: LocalizedTaxons = await sourceTaxons(args, options);
+  await sourceProducts(args, taxons, options);
 }

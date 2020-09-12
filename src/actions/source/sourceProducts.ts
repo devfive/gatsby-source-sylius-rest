@@ -6,6 +6,7 @@ import { ProductNode } from '../../schemas/Nodes';
 import { SyliusSourcePluginOptions } from '../../schemas/Plugin/Options';
 import { SyliusProduct } from '../../schemas/Sylius';
 import { reportDebug, report } from '../../utils/reportDebug';
+import { LocalizedTaxons } from './sourceTaxons';
 
 export async function sourceProducts(
   {
@@ -17,6 +18,7 @@ export async function sourceProducts(
     reporter,
     store,
   }: SourceNodesArgs,
+  taxons: LocalizedTaxons,
   options: SyliusSourcePluginOptions,
 ): Promise<void> {
   const { locales, url } = options;
