@@ -1,5 +1,5 @@
 import { SourceNodesArgs } from 'gatsby';
-import { getAllLatestProducts } from '../../data/getAllLatestProducts';
+import { getAllTaxonsProducts } from '../../data/getAllTaxonsProducts';
 import { LocalizedCollection } from '../../data/getLocalizedCollections';
 import { getProductNodes } from '../../nodes/getProductNodes';
 import { ProductNode } from '../../schemas/Nodes';
@@ -7,6 +7,8 @@ import { SyliusSourcePluginOptions } from '../../schemas/Plugin/Options';
 import { SyliusProduct } from '../../schemas/Sylius';
 import { reportDebug, report } from '../../utils/reportDebug';
 import { LocalizedTaxons } from './sourceTaxons';
+
+export type LocalizedProducts = Array<LocalizedCollection<SyliusProduct>>;
 
 export async function sourceProducts(
   {
@@ -21,7 +23,7 @@ export async function sourceProducts(
   taxons: LocalizedTaxons,
   options: SyliusSourcePluginOptions,
 ): Promise<void> {
-  const { locales, url } = options;
+  const { url } = options;
   const { createNode } = actions;
 
   if (!url) {
@@ -32,8 +34,8 @@ export async function sourceProducts(
   reportDebug(reporter, options, '------------');
 
   return Promise.resolve()
-    .then(() => getAllLatestProducts(url, locales))
-    .then((localizedProducts: Array<LocalizedCollection<SyliusProduct>>) => {
+    .then(() => getAllTaxonsProducts(url, taxons))
+    .then((localizedProducts: LocalizedProducts) => {
       if (!localizedProducts.length) {
         report(reporter, 'No products has been found!', 'warn');
 
