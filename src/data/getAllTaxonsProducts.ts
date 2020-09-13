@@ -32,9 +32,6 @@ async function getLocaleProducts(
         taxonCode: taxon.code,
       });
 
-      console.log('-----');
-      console.log('get products for', taxon.code);
-
       const taxonProducts: SyliusProduct[] | null = await productsProvider.getRecords({
         queryParameters: {
           params: {

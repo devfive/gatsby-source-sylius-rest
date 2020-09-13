@@ -54,8 +54,6 @@ export class TaxonProductsProvider extends RestDataProvider<SyliusProduct> {
       },
     };
 
-    console.log('page', page);
-
     return super.getRecords(requestOptions);
   }
 
