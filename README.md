@@ -84,3 +84,4 @@ Write `yarn run test` in terminal or use launch configurations in your Visual St
 
 1. Source products attributes.
 2. Source product variant images.
+3. Source latest products.
