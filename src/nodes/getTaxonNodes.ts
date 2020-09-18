@@ -60,6 +60,7 @@ async function getFlattenedTaxonNode(
 
   return [
     {
+      ...taxon,
       children,
       code: taxon.code,
       description: taxon.description,
