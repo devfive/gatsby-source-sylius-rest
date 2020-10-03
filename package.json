@@ -2,7 +2,7 @@
   "name": "gatsby-source-sylius-rest",
   "private": false,
   "description": "Gatsby plugin for Sylius e-commerce framework",
-  "version": "0.3.1",
+  "version": "0.4.0-dev.4",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
