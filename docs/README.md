@@ -68,6 +68,7 @@ Please check [SyliusSourcePluginOptionsInterface](https://github.com/devfive/gat
 |   Name  | Required |                Type                | Description                                                                                                                                      |
 |:-------:|:--------:|:----------------------------------:|--------------------------------------------------------------------------------------------------------------------------------------------------|
 |  debug  |    no    |               boolean              | Provides additional messages during Gatsby build                                                                                                 |
+| limits  |    no    |      SyliusSourcePluginLimits      | Rows limits used for pagination for specific calls to Sylius Shop API.                                                                           |
 | locales |    yes   |              string[]              | List of supported locales. They are required for retrieving data from Sylius API, sourcing GraphQL nodes and link building.                      |
 |  pages  |    no    | SyliusSourcePluginPageDefinition[] | Definitions of pages which should be created using Gatsby Node API (`createPages`). If empty, `gatsby-source-sylius-rest` will not create pages. |
 | schemas |    no    |      SyliusSourcePluginSchemas     | Definitions of additional or overriden fields in schemas that will be sourced.                                                                   |
@@ -94,6 +95,13 @@ Please check [SyliusSourcePluginSchema](https://github.com/devfive/gatsby-source
 | productTaxons  |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusProductTaxons  |
 | productVariant |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusProductVariant |
 | taxon          |    no    | SyliusSourcePluginSchema | Additional or overriden fields for SyliusTaxon          |
+
+##### Schemas definitions options
+Please check [SyliusSourcePluginLimits](https://github.com/devfive/gatsby-source-sylius-rest/blob/master/src/schemas/Plugin/Options.ts) definition for TypeScript interface.
+
+|      Name      | Required |   Type   | Description                                                                           |
+|:--------------:|:--------:|:--------:|---------------------------------------------------------------------------------------|
+| products       |    no    |  number  | Number of rows used for pagination for `shop-api/taxon-products/` call. Default `10`. |
 
 ## Examples
 ### Queries

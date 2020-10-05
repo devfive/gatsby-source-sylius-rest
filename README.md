@@ -70,6 +70,7 @@ Please check [SyliusSourcePluginOptionsInterface](https://github.com/devfive/gat
 |   Name  | Required |                Type                | Description                                                                                                                                      |
 |:-------:|:--------:|:----------------------------------:|--------------------------------------------------------------------------------------------------------------------------------------------------|
 |  debug  |    no    |               boolean              | Provides additional messages during Gatsby build                                                                                                 |
+| limits  |    no    |      SyliusSourcePluginLimits      | Rows limits used for pagination for specific calls to Sylius Shop API.                                                                           |
 | locales |    yes   |              string[]              | List of supported locales. They are required for retrieving data from Sylius API, sourcing GraphQL nodes and link building.                      |
 |  pages  |    no    | SyliusSourcePluginPageDefinition[] | Definitions of pages which should be created using Gatsby Node API (`createPages`). If empty, `gatsby-source-sylius-rest` will not create pages. |
 | schemas |    no    |      SyliusSourcePluginSchemas     | Definitions of additional or overriden fields in schemas that will be sourced.                                                                   |
