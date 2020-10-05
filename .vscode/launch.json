@@ -20,7 +20,7 @@
       "request": "launch",
       "name": "Unit test current file",
       "args": [
-        "--testMatch='**/src/**/__tests__/${fileBasenameNoExtension}(.test)?.ts'",
+        "--testMatch='**/src/**/__tests__/${fileBasenameNoExtension}?(.test).ts'",
         "--testRegex",
         "--verbose"
       ],
