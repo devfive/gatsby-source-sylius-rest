@@ -6,6 +6,9 @@ import {
 
 export const defaultOptions: SyliusSourcePluginOptions = {
   debug: false,
+  limits: {
+    products: 10,
+  },
   locales: [],
   pages: [],
   plugins: [],
@@ -26,6 +29,10 @@ export function getDefaultOptions(
   return {
     ...defaultOptions,
     ...options,
+    limits: {
+      ...defaultOptions.limits,
+      ...options.limits,
+    },
     schemas: {
       ...defaultOptions.schemas,
       ...options.schemas,

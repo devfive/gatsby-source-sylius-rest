@@ -59,4 +59,25 @@ describe('getDefaultOptions', () => {
       });
     });
   });
+
+  describe('when partial limits are given', () => {
+    it('should add missing limits', () => {
+      // having
+      const options: PartialSyliusSourcePluginOptions = {
+        limits: {},
+        plugins: [],
+      };
+
+      // when
+      const newOptions: SyliusSourcePluginOptions = getDefaultOptions(options);
+
+      // then
+      expect(newOptions).toEqual({
+        ...defaultOptions,
+        limits: {
+          products: 10,
+        },
+      });
+    });
+  });
 });

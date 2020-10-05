@@ -4,15 +4,19 @@ export type SyliusSourcePluginOptions = PluginOptions & SyliusSourcePluginOption
 
 export type PartialSyliusSourcePluginOptions =
   PluginOptions
-    & Omit<Partial<SyliusSourcePluginOptions>, 'schemas'>
+    & Omit<Partial<SyliusSourcePluginOptions>, 'limits' | 'schemas'>
     & {
       schemas?: PartialSyliusSourcePluginSchema;
+    }
+    & {
+      limits?: Partial<SyliusSourcePluginLimits>;
     };
 
 export type PartialSyliusSourcePluginSchema = Partial<SyliusSourcePluginSchema>;
 
 export interface SyliusSourcePluginOptionsInterface {
   debug: boolean;
+  limits: SyliusSourcePluginLimits;
   locales: string[];
   pages: SyliusSourcePluginPageDefinition[];
   schemas: SyliusSourcePluginSchemas;
@@ -41,6 +45,10 @@ export interface SyliusSourcePluginSchemas {
   productTaxons: SyliusSourcePluginSchema;
   productVariant: SyliusSourcePluginSchema;
   taxon: SyliusSourcePluginSchema;
+}
+
+export interface SyliusSourcePluginLimits {
+  products: number;
 }
 
 export interface SyliusSourcePluginSchema {
