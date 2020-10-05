@@ -34,7 +34,7 @@ export async function sourceProducts(
   reportDebug(reporter, options, '------------');
 
   return Promise.resolve()
-    .then(() => getAllTaxonsProducts(url, taxons))
+    .then(() => getAllTaxonsProducts(url, taxons, { perPage: options.limits.products }))
     .then((localizedProducts: LocalizedProducts) => {
       if (!localizedProducts.length) {
         report(reporter, 'No products has been found!', 'warn');

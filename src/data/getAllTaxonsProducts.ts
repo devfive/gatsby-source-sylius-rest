@@ -5,13 +5,18 @@ import { LocalizedCollection } from './getLocalizedCollections';
 import { TaxonProductsProvider } from './providers/TaxonProductsProvider';
 import { SyliusTaxon, SyliusProduct } from '../schemas/Sylius';
 
+interface GetAllTaxonsProductsOptions {
+  perPage?: number;
+};
+
 export async function getAllTaxonsProducts(
   url: string,
   localizedTaxons: LocalizedTaxons,
+  options: GetAllTaxonsProductsOptions,
 ): Promise<LocalizedProducts> {
   const promises: Array<Promise<LocalizedCollection<SyliusProduct>>> = localizedTaxons
     .map((localeTaxons: LocalizedCollection<SyliusTaxon>) => {
-      return getLocaleProducts(url, localeTaxons);
+      return getLocaleProducts(url, localeTaxons, options);
     });
 
 
@@ -21,6 +26,7 @@ export async function getAllTaxonsProducts(
 async function getLocaleProducts(
   url: string,
   localeTaxons: LocalizedCollection<SyliusTaxon>,
+  options: GetAllTaxonsProductsOptions,
 ): Promise<LocalizedCollection<SyliusProduct>> {
   const { collection, locale } = localeTaxons;
 
@@ -28,6 +34,7 @@ async function getLocaleProducts(
   const promises: Array<Promise<Array<SyliusProduct>>> = taxons
     .map(async (taxon: SyliusTaxon) => {
       const productsProvider: TaxonProductsProvider = new TaxonProductsProvider({
+        perPage: options.perPage,
         url,
         taxonCode: taxon.code,
       });
